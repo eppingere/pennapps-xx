@@ -7,6 +7,21 @@ An increasingly common problem for sites is dealing with fake users, users imper
 ## What it does
 Poze is an API that asks users to do simple tasks on camera and uses Computer Vision to verify that they are accomplishing the task as specified and verifying that the person on camera is the correct owner of the account. When given an image of the user, Poze verifies that the person in the video or image is the person in the user's image, therefore verifying that the person in control of the account is the person in control of the likeness displayed on the account.
 
+## How to use Poze
+
+Using our API is very easy. To verify the identiy of a user, all you need is:
+
+1. A photo of the user. You can get this before starting to call our API in each verification or you could pull this from data that the user has already provided.
+2. Call our `get-task` which will provide a type of task to ask the user to complete and a task id.
+3. Record a video of the user accomplishing the task
+4. Send the video to our `check-task` API
+5. Receive a `bool` representing whether or not the user has been verified
+
+Its that easy!!!
+
+For a complete definition of our API can be found in our [Swaggerdocs](abc.xyz)
+
+
 ## How we built it
 The core of Poze is [Amazon Rekognition](https://aws.amazon.com/rekognition/), a facial recognition and object detection service that we utilize to compare new pictures against references to authenticate a user. We wanted a serverless back-end, so we could focus on API transactions and not managing infrastructure, so Poze’s backend uses API Gateway to provide the necessary endpoints, and [AWS Lambda](https://aws.amazon.com/lambda/) to do the computation and interface with Rekognition. We also utilize [AWS S3](https://aws.amazon.com/s3/) to store the image and video files provided by our users to authenticate themselves, and ensure that their data is deleted in a timely fashion to maintain their privacy.
 Our front-end 
