@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Time2Care - Medical Center</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+        {% if hospital %}
+          <h1 class="title">
+            Update Information for {{ hospital }}
+          </h1>
+        {% else %}
+            <h1 class="title">
+            Update Information
+          </h1>
+        {% endif %}
+
+      <h1 class="title">
+        Medical Center
+      </h1>
+        <form action="/welcome">
+            Current Wait Time:<br>
+            <input type="text" name="wait">
+            <br>
+            <br>
+            <input type="submit" value="Submit" class="button is-link is-medium">
+        </form>
+    <br/>
+    <div class="container">
+      <a href="/" class="button is-warning is-small">&lt; Home</a>
+    </div>
+    </div>
+  </section>
+  </body>
+</html>
