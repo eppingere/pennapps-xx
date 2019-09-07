@@ -61,9 +61,6 @@ def eye_aspect_ratio(eye):
 	return ear
 
 def user_blinked(user_pics):
-    new_user_pics = []
-    for pic in user_pics:
-        new_user_pics.append(pic.seek(0))
     COUNTER = 0
     TOTAL = 0
 

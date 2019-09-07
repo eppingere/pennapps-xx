@@ -72,21 +72,8 @@ task_arg_dict = {
     1 : {'Id':1, 'ObjectLabel':'Shoe', 'ObjectQuality':'left'},
     2 : {'Id':2, 'ObjectLabel':'Flip-Flop', 'ObjectQuality':'exist'},
     3 : {'Id':3, 'ObjectLabel':'Cup', 'ObjectQuality':'exist'},
-    4 : {'Id':3, 'ObjectLabel':'Beverage', 'ObjectQuality':'exist'},
-
+    4 : {'Id':4, 'ObjectLabel':'Beverage', 'ObjectQuality':'exist'},
+    5 : {'Id':5, 'ObjectLabel':'Bottle', 'ObjectQuality':'exist'},
 }
 
 numTasks = len(task_dict)    # always_true should be ignored and always be at index 0
-
-
-if __name__ == '__main__':
-    img0_path='img/face1.jpg'
-    img1_path='img/water-bottle.jpg'
-
-    img0=open(img0_path,'rb')
-    img1=open(img1_path,'rb')
-
-    print("result:", blink_things.live_check_task(3, img0, [img1]))
-
-    img0.close()
-    img1.close()
