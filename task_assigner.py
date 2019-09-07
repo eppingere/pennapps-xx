@@ -1,7 +1,6 @@
 import json
 from random import randint
-
-numTasks = 2
+from tasks import *
 
 def respond(resp, err):
     return {
@@ -14,8 +13,11 @@ def respond(resp, err):
 
 def lambda_handler(event, context):
     if event['httpMethod'] == 'GET':
-        resp = randint(1, numTasks)
+        taskId = randint(1, numTasks)
 
-        return respond({'taskId': resp}, None)
+        return respond(
+            {'description': task_arg_dict[taskId]},
+            None)
     else:
-        return respond(None, {'message':'This endpoint only accepts GET requests!'})
+        return respond(None,
+            {'message':'This endpoint only accepts GET requests!'})

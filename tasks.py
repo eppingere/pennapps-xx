@@ -66,3 +66,5 @@ task_arg_dict = {
     1 : {'Id':1, 'ObjectLabel':'Shoe', 'ObjectQuality':'left'},
     2 : {'Id':2, 'ObjectLabel':'Flip-Flop', 'ObjectQuality':'exist'},
 }
+
+numTasks = 2    # always_true should be ignored and always be at index 0
