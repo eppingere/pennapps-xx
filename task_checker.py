@@ -51,17 +51,16 @@ if __name__ == "__main__":
     img_finger = 'finger.jpg'
     img_shoe_right = 'shoe_right.jpg'
 
-    print("always_true:", check_task(0, img0, 'face1.jpg'))
-    print("shoe_left (should work):", check_task(1, img0, img1))
-    print("flip_flop_right (should work):", check_task(2, img0, img2))
-    print("shoe_left (should fail):", check_task(2, img3, img2))
-    print("flip_flop_right (should fail):", check_task(2, img3, img2))
-    print("cup (should work):", check_task(3, img3, img_cup))
-    print("beverage (should work):", check_task(4, img3, img_beverage))
-    print("bottle (should work):", check_task(5, img3, img_bottle))
-    print("finger (should work):", check_task(6, img3, img_finger))
-    print("shoe_right (should work):", check_task(7, img3, img_shoe_right))
 
+    assert(check_task(0, img0, 'face1.jpg')) # always_true
+    assert(check_task(1, img0, img1)) # shoe_left
+    assert(check_task(2, img0, img2)) # flip_flop_right
+    assert(not check_task(2, img3, img2)) # shoe_left failure
+    assert(not check_task(2, img3, img2)) # flip_flop_right failure
+    assert(check_task(3, img3, img_cup)) # cup
+    assert(check_task(4, img3, img_beverage)) # beverage
+    assert(check_task(5, img3, img_bottle)) # bottle
+    assert(check_task(6, img3, img_finger)) # finger
+    assert(check_task(7, img3, img_shoe_right)) # shoe_right
 
-
-    print("ran!!")
+    print("all tests passed!!")
