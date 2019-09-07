@@ -1,6 +1,3 @@
-import task_checker
-import blink_things
-
 bucket = 'aneekm-bucket'
 
 def check_face_static(client, img1, img2):

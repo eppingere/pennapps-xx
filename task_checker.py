@@ -1,6 +1,6 @@
 import boto3
 import json
-import blink_things
+#import blink_things
 
 from tasks import *
 
@@ -9,8 +9,8 @@ client = boto3.client('rekognition')
 def check_task (task_id, refPic, livePics):
     # print('--- Authenticating ---')
 
-    if not blink_things.user_blinked(livePics):
-        return False
+    #if not blink_things.user_blinked(livePics):
+     #   return False
 
     task_checker = task_dict[task_id]
 
@@ -32,7 +32,9 @@ def lambda_handler(event, context):
         refPicPath = body['refPic']
         livePicsPath = body['livePics']
 
-        auth = check_task(taskId, refPic, livePicsPath)
+        print("ref-",refPicPath,'live-',livePicsPath)
+
+        auth = check_task(taskId, refPicPath, livePicsPath)
 
         return respond({'auth': auth}, None)
     else:
