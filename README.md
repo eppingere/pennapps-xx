@@ -21,7 +21,7 @@ Its that easy!!!
 
 For a complete definition of our API can be found in our [Swaggerdocs](abc.xyz)
 
-For an example of how to use the Poze API is in our [demo](flask_demo_site3). 
+For an example of how to use the Poze API is in our [demo](https://github.com/eppingere/pennapps-xx/tree/master/flask_demo_site3). 
 
 
 ## How we built it
