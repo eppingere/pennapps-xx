@@ -1,4 +1,7 @@
 
+import task_checker
+import blink_things
+
 def check_face(client, img1, img2):
     face_similarity_threshold = 95
     response=client.compare_faces(SimilarityThreshold=face_similarity_threshold,
@@ -24,15 +27,16 @@ def static_object(client, task, tgt):
 
     response = client.detect_labels(
         Image={'Bytes': tgt},
-        MaxLabels=10
+        MaxLabels=20
     )
 
     for label in response['Labels']:
-        '''print ("Label: " + label['Name'])
+
+        print ("Label: " + label['Name'])
         print ("Confidence: " + str(label['Confidence']))
         print ("Instances:", len(label['Instances']))
         print('-----------')
-        print()'''
+        print()
 
         if label['Name'] == task['ObjectLabel']:
             foundObj = True
@@ -59,12 +63,29 @@ task_dict = {
     0 : always_true,
     1 : static_object,
     2 : static_object,
+    3 : static_object,
 }
 
 task_arg_dict = {
     0 : {},
     1 : {'Id':1, 'ObjectLabel':'Shoe', 'ObjectQuality':'left'},
     2 : {'Id':2, 'ObjectLabel':'Flip-Flop', 'ObjectQuality':'exist'},
+    3 : {'Id':3, 'ObjectLabel':'Cup', 'ObjectQuality':'exist'},
+    4 : {'Id':3, 'ObjectLabel':'Beverage', 'ObjectQuality':'exist'},
+
 }
 
-numTasks = 2    # always_true should be ignored and always be at index 0
+numTasks = len(task_dict)    # always_true should be ignored and always be at index 0
+
+
+if __name__ == '__main__':
+    img0_path='img/face1.jpg'
+    img1_path='img/water-bottle.jpg'
+
+    img0=open(img0_path,'rb')
+    img1=open(img1_path,'rb')
+
+    print("result:", blink_things.live_check_task(3, img0, [img1]))
+
+    img0.close()
+    img1.close()

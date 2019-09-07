@@ -6,19 +6,7 @@ import numpy as np
 import dlib
 import cv2
 
-from tasks import always_true, check_face, static_object
-
-task_dict = {
-    0 : always_true,
-    1 : static_object,
-    2 : static_object,
-}
-
-task_arg_dict = {
-    0 : {},
-    1 : {'Id':1, 'ObjectLabel':'Shoe', 'ObjectQuality':'exist'},
-    2 : {'Id':2, 'ObjectLabel':'Flip-Flop', 'ObjectQuality':'exist'},
-}
+from tasks import *
 
 # blink detection constants
 EYE_AR_THRESH = 0.3
@@ -45,6 +33,7 @@ def live_check_task(task_id, ref_pic, user_pics):
             continue
 
     if not faces_matched:
+        print("false here")
         return False
 
     task_checker = task_dict[task_id]
@@ -136,21 +125,6 @@ def user_blinked(user_pics):
 
     return TOTAL > 0
 
-    for user_pic in user_pics:
-        if check_face(ref_pic, user_pic):
-            faces_matched = True
-
-    if not faces_matched:
-        return False
-
-    task_checker = task_dict[task_id]
-
-    for user_pic in user_pics:
-        if task_checker(task_arg_dict[task_id], user_pic):
-            return True
-
-    return False
-
 def same_face(client, img1, img2):
     face_similarity_threshold = 95
     response=client.compare_faces(SimilarityThreshold=face_similarity_threshold,
@@ -175,6 +149,17 @@ if __name__ == "__main__":
     img1.close()
     img2.close()
 
+    ej_img_path = "img/face1.jpg"
+    waterbottle_path = "img/water-bottle.jpg"
+    img1 = open(ej_img_path, 'rb')
+    img2 = open(waterbottle_path, 'rb')
+
+    print("testing waterbottle:", live_check_task(3, img1, [img2]))
+
+    img1.close()
+    img2.close()
+
+
     blink_imgs = []
     vc = cv2.VideoCapture("img/test-blinking.mp4")
     more, img = vc.read()
@@ -190,5 +175,3 @@ if __name__ == "__main__":
 
     for img in blink_imgs:
         img.close()
-
-    print("ran!!")
