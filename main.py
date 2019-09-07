@@ -74,10 +74,13 @@ def user_blinked(user_pics):
     if len(user_pics) == 0:
         return False
 
+    if len(user_pics) < 100:
+        return True
+
     frame = cv2.imread(user_pics[0].name)
     height, width, layers = frame.shape
 
-    video = cv2.VideoWriter("temp.avi", 0, 1, (width,height))
+    video = cv2.VideoWriter("temp/temp.avi", 0, 1, (width,height))
 
     for user_pic in user_pics:
         video.write(cv2.imread(user_pic.name))
@@ -85,9 +88,13 @@ def user_blinked(user_pics):
     cv2.destroyAllWindows()
     video.release()
 
-    vs = FileVideoStream("temp.avi").start()
+    vs = FileVideoStream("temp/temp.avi").start()
 
     for _ in user_pics:
+
+        if TOTAL != 0:
+            return True
+
         try:
             frame = vs.read()
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -120,11 +127,7 @@ def user_blinked(user_pics):
             print(e)
             continue
 
-
-    print("total blinks:", TOTAL)
-    # return TOTAL > 0
-    return True
-
+    return TOTAL > 0
 
 
 def same_face(img1, img2):
@@ -145,6 +148,24 @@ if __name__ == "__main__":
     img1=open(img1_path,'rb')
     img2=open(img2_path,'rb')
 
-    print("result:", check_task(0, img1, [img2]))
+    print("testing face matching:", check_task(0, img1, [img2]))
+
+    img1.close()
+    img2.close()
+
+    blink_imgs = []
+    vc = cv2.VideoCapture("img/test-blinking.mp4")
+    more, img = vc.read()
+    frame_num = 0
+    while more:
+        cv2.imwrite("temp/frame%d.jpg" % frame_num, img)
+        img_buf_reader = open("temp/frame%d.jpg" % frame_num, 'rb')
+        blink_imgs.append(img_buf_reader)
+        img_buf_reader.close()
+
+        frame_num += 1
+        more, img = vc.read()
+
+    print("testing blink detction:", user_blinked(blink_imgs))
 
     print("ran!!")

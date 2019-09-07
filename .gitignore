@@ -104,4 +104,4 @@ venv.bak/
 .mypy_cache/
 
 # video files generated for analyzing blinks
-*.avi
+temp/
