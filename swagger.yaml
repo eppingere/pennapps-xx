@@ -1,0 +1,100 @@
+swagger: "2.0"
+info:
+  description: "This is the API to interact with the Poze authentication back-end" 
+  version: "1.0.0"
+  title: "Poze Authentication"
+  contact:
+    email: "aneek@cmu.edu"
+  license:
+    name: "MIT License"
+    url: "https://opensource.org/licenses/MIT"
+host: "api.poze.tech"
+basePath: "/"
+tags:
+- name: "get-task"
+  description: "To get a task"
+  externalDocs:
+    description: "Find out more"
+    url: "http://poze.tech"
+- name: "check-task"
+  description: "To authenticate the user performing the task"
+schemes:
+- "https"
+paths:
+  /get-task:
+    get:
+      tags:
+      - "get-task"
+      summary: "Get a randomly assigned task from pool of possibilities"
+      description: >
+        This API endpoint provides a JSON response with the info required
+        to explain the task to the user, and an Id to send back with the user's
+        picture and data.
+      operationId: "get-task"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetTaskResponse"
+  /check-task:
+    post:
+      tags:
+      - "check-task"
+      summary: "Get a randomly assigned task from pool of possibilities"
+      description: >
+        This API endpoint provides a JSON response with the info required
+        to explain the task to the user, and an Id to send back with the user's
+        picture and data.
+      operationId: "check-task"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Required fields in body of CheckTaskRequest"
+        required: true
+        schema:
+          $ref: "#/definitions/CheckTaskRequest"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/CheckTaskResponse"
+        405:
+          description: "Invalid input"
+definitions:
+  GetTaskResponse:
+    type: "object"
+    properties:
+      taskId:
+        type: "integer"
+        format: "int32"
+      ObjectLabel:
+        type: "string"
+        description: Object needed in auth picture
+      ObjectQuality:
+        type: "string"
+        description: Object's orientation/existence in picture
+  CheckTaskRequest:
+    type: "object"
+    properties:
+      taskId:
+        type: "integer"
+        format: "int32"
+      username:
+        type: "string"
+        description: Username(email) of the user to be authenticated
+      livePicPath:
+        type: "string"
+        description: Path to the authentication picture in S3 bucket
+  CheckTaskResponse:
+    type: "object"
+    properties:
+      auth:
+        type: "string"
+        description: True/False string representing authentication status
+externalDocs:
+  description: "Find out more about Poze"
+  url: "https://poze.tech"
