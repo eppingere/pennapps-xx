@@ -40,6 +40,6 @@ We also are quite happy with the overall design of our API. We think that the AP
 We learned a lot about AWS. Only Aneek had used AWS before this so learning about all the powerful APIs that AWS offers. We got experience designing, building, and deploying a serverless API.
 
 ## What's next for Poze
-* AR/VR activities via an external app improvements to better guard against deepfakes.
+* AR/VR activities via an external app to better guard against deepfakes.
 * More interactive tasks for users to record that would provide more robust CAPTCHA functionality
 * Fully implement a 2FA protocol that would allow Poze to function as a 2FA API for sites to use
