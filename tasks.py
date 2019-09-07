@@ -70,7 +70,7 @@ task_dict = {
     5 : static_object,
     6 : static_object,
     7 : static_object,
-
+    10: static_object,
 }
 
 task_arg_dict = {
@@ -81,7 +81,8 @@ task_arg_dict = {
     4 : {'Id':4, 'ObjectLabel':'Beverage', 'ObjectQuality':'exist'},
     5 : {'Id':5, 'ObjectLabel':'Bottle', 'ObjectQuality':'exist'},
     6 : {'Id':6, 'ObjectLabel':'Finger', 'ObjectQuality':'exist'},
-    7 : {'Id':67, 'ObjectLabel':'Shoe', 'ObjectQuality':'right'},
+    7 : {'Id':7, 'ObjectLabel':'Shoe', 'ObjectQuality':'right'},
+    10: {'Id':10, 'ObjectLabel':'Bag', 'ObjectQuality':'exist'},
 }
 
 numTasks = len(task_dict)    # always_true should be ignored and always be at index 0
