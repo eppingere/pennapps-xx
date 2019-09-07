@@ -1,26 +1,25 @@
-# Pennapps XX Project - Poze
+# pennapps-xx
+Poze: Private and Secure Identity Verification
 
-## Important Files:
-1. **tasks.py** holds the functions for checking images
-    against Rekognition, and the dictionaries defining the possible
-    tasks
-2. **task_assigner.py** is the Lambda handler for the 
-    assignTasksLambda function in AWS. It returns a random task ID
-    and description taken from `tasks.py`.
-3. **task_checker.py** is the Lambda handler for the checkTaskLambda
-    function in AWS. It takes an ID, a reference picture, and a list
-    of live pictures and calls the appropriate validation function 
-    from `tasks.py` with that data. **Currently Broken!**
+# Inspiration
+An increasingly common problem for sites is dealing with fake users, users impersonating other users, and enforcement of best security practices with users. This problem is so severe that [in 2018 Q4, Facebook recognized 118 Million impersonated accounts.][1] 
 
-## Deployment
-AWS Lambda requires a zip file package to upload Python code.
+# What it does
+Pseudo-second factor authentication in the style of WarioWare-like mini activities
 
-To deploy:
-1. Create a zip file containing the relevant files from the above 
-    section for each function (tasks.py and one of the handlers)
-2. Use the following AWS CLI command or upload using the web UI:
-    `aws lambda update-function-code --function-name <FUNCTION> --zip-file fileb://<ZIPFILE>`
+# How we built it
+AWS
 
-## Testing 
-Use Postman for testing (API Gateway requires AWS SigV4 signed 
-requests).
+# Challenges we ran into
+Accessibility Integrating different technical portion Hosting
+
+# Accomplishments that we're proud of
+The Demo
+
+# What we learned
+# What's next for Poze
+
+* AR/VR activities via an external app Improvements to better guard against deepfakes 
+* Working towards true 2FA
+
+[1]: https://www.nytimes.com/2019/01/30/technology/facebook-fake-accounts.html
