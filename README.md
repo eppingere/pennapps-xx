@@ -21,6 +21,8 @@ Its that easy!!!
 
 For a complete definition of our API can be found in our [Swaggerdocs](abc.xyz)
 
+For an example of how to use the Poze API is in our [demo](flask_demo_site3). 
+
 
 ## How we built it
 The core of Poze is [Amazon Rekognition](https://aws.amazon.com/rekognition/), a facial recognition and object detection service that we utilize to compare new pictures against references to authenticate a user. We wanted a serverless back-end, so we could focus on API transactions and not managing infrastructure, so Poze’s backend uses API Gateway to provide the necessary endpoints, and [AWS Lambda](https://aws.amazon.com/lambda/) to do the computation and interface with Rekognition. We also utilize [AWS S3](https://aws.amazon.com/s3/) to store the image and video files provided by our users to authenticate themselves, and ensure that their data is deleted in a timely fashion to maintain their privacy.
