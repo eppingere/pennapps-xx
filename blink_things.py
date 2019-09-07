@@ -72,6 +72,9 @@ def eye_aspect_ratio(eye):
 	return ear
 
 def user_blinked(user_pics):
+    new_user_pics = []
+    for pic in user_pics:
+        new_user_pics.append(pic.seek(0))
     COUNTER = 0
     TOTAL = 0
 
@@ -168,6 +171,7 @@ if __name__ == "__main__":
 
     print("testing face matching:", live_check_task(0, img1, [img2]))
 
+    img0.close()
     img1.close()
     img2.close()
 
@@ -179,11 +183,12 @@ if __name__ == "__main__":
         cv2.imwrite("temp/frame%d.jpg" % frame_num, img)
         img_buf_reader = open("temp/frame%d.jpg" % frame_num, 'rb')
         blink_imgs.append(img_buf_reader)
-        img_buf_reader.close()
-
         frame_num += 1
         more, img = vc.read()
 
     print("testing blink detction:", user_blinked(blink_imgs))
+
+    for img in blink_imgs:
+        img.close()
 
     print("ran!!")
