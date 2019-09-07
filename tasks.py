@@ -17,15 +17,16 @@ def always_true(client, task, img1, img2):
 
 
 def static_object(client, task, tgt, ref):
-    print('--- Static Object Task Starting ---')
+    # print('--- Static Object Task Starting ---')
 
     if not check_face_static(client, ref, tgt):
         return False
 
-    print('--- Confirmed Face ---')
+    # print('--- Confirmed Face ---')
 
     foundObj = False
     foundPerson = False
+    objLeft, objRight, personLeft, personRight = 0, 0, 0, 0
 
     response = client.detect_labels(
         Image={'S3Object':{'Bucket':bucket,'Name':tgt}},
@@ -33,11 +34,11 @@ def static_object(client, task, tgt, ref):
 
     for label in response['Labels']:
 
-        print ("Label: " + label['Name'])
+        '''print ("Label: " + label['Name'])
         print ("Confidence: " + str(label['Confidence']))
         print ("Instances:", len(label['Instances']))
         print('-----------')
-        print()
+        print()'''
 
         if label['Name'] == task['ObjectLabel']:
             foundObj = True
@@ -65,6 +66,11 @@ task_dict = {
     1 : static_object,
     2 : static_object,
     3 : static_object,
+    4 : static_object,
+    5 : static_object,
+    6 : static_object,
+    7 : static_object,
+
 }
 
 task_arg_dict = {
@@ -74,6 +80,8 @@ task_arg_dict = {
     3 : {'Id':3, 'ObjectLabel':'Cup', 'ObjectQuality':'exist'},
     4 : {'Id':4, 'ObjectLabel':'Beverage', 'ObjectQuality':'exist'},
     5 : {'Id':5, 'ObjectLabel':'Bottle', 'ObjectQuality':'exist'},
+    6 : {'Id':6, 'ObjectLabel':'Finger', 'ObjectQuality':'exist'},
+    7 : {'Id':67, 'ObjectLabel':'Shoe', 'ObjectQuality':'right'},
 }
 
 numTasks = len(task_dict)    # always_true should be ignored and always be at index 0

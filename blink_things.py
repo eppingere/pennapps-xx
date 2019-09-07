@@ -39,7 +39,7 @@ def live_check_task(task_id, ref_pic, user_pics):
     task_checker = task_dict[task_id]
 
     for user_pic in user_pics:
-        if task_checker(client, task_arg_dict[task_id], user_pic):
+        if task_checker(client, task_id, task_arg_dict[task_id], user_pic):
             return True
 
     return False
