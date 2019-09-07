@@ -108,3 +108,6 @@ venv.bak/
 
 # ZIP files for AWS Lambda deployments
 *.zip
+
+# video files generated for analyzing blinks
+temp/
