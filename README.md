@@ -21,3 +21,7 @@ To deploy:
     section for each function (tasks.py and one of the handlers)
 2. Use the following AWS CLI command or upload using the web UI:
     `aws lambda update-function-code --function-name <FUNCTION> --zip-file fileb://<ZIPFILE>`
+
+## Testing 
+Use Postman for testing (API Gateway requires AWS SigV4 signed 
+requests).
