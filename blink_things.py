@@ -1,11 +1,12 @@
 import boto3
 from imutils.video import FileVideoStream
+from scipy.spatial import distance as dist
 from imutils import face_utils
 import numpy as np
 import dlib
 import cv2
 
-from task.tasks import always_true, check_face, static_object
+from tasks import always_true, check_face, static_object
 
 task_dict = {
     0 : always_true,
@@ -36,9 +37,10 @@ def live_check_task(task_id, ref_pic, user_pics):
         return False
 
     faces_matched = False
+    client=boto3.client('rekognition')
 
     for user_pic in user_pics:
-        if same_face(ref_pic, user_pic):
+        if same_face(client, ref_pic, user_pic):
             faces_matched = True
             continue
 
@@ -48,7 +50,7 @@ def live_check_task(task_id, ref_pic, user_pics):
     task_checker = task_dict[task_id]
 
     for user_pic in user_pics:
-        if task_checker(user_pic):
+        if task_checker(client, task_arg_dict[task_id], user_pic):
             return True
 
     return False
@@ -146,6 +148,14 @@ def user_blinked(user_pics):
 
     return False
 
+def same_face(client, img1, img2):
+    face_similarity_threshold = 95
+    response=client.compare_faces(SimilarityThreshold=face_similarity_threshold,
+                                  SourceImage={'Bytes': img1.read()},
+                                  TargetImage={'Bytes': img2.read()})
+
+    return len(response['FaceMatches']) == 1
+
 if __name__ == "__main__":
 
     img0_path='img/ref_pic.jpg'
@@ -156,7 +166,7 @@ if __name__ == "__main__":
     img1=open(img1_path,'rb')
     img2=open(img2_path,'rb')
 
-    print("testing face matching:", check_task(0, img1, [img2]))
+    print("testing face matching:", live_check_task(0, img1, [img2]))
 
     img1.close()
     img2.close()
