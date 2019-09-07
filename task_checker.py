@@ -1,6 +1,6 @@
 import boto3
 import json
-import blink_things
+#import blink_things
 
 from tasks import *
 
@@ -9,8 +9,8 @@ client = boto3.client('rekognition')
 def check_task (task_id, refPic, livePics):
     # print('--- Authenticating ---')
 
-    if not blink_things.user_blinked(livePics):
-        return False
+    #if not blink_things.user_blinked(livePics):
+     #   return False
 
     task_checker = task_dict[task_id]
 
@@ -29,10 +29,10 @@ def lambda_handler(event, context):
     if event['httpMethod'] == 'POST':
         body = json.loads(event['body'])
         taskId = body['taskId']
-        refPicPath = body['refPic']
-        livePicsPath = body['livePics']
+        refPicPath = body['username'] + '.jpg'
+        livePicsPath = body['livePicPath']
 
-        auth = check_task(taskId, refPic, livePicsPath)
+        auth = check_task(taskId, refPicPath, livePicsPath)
 
         return respond({'auth': auth}, None)
     else:
@@ -41,10 +41,10 @@ def lambda_handler(event, context):
 
 if __name__ == "__main__":
 
-    img0='ref_pic.jpg'
+    img0='aneek@cmu.edu.jpg'
     img1='shoe_left.jpg'
     img2='flip_flop_right.jpg'
-    img3='face1.jpg'
+    img3='manny@cmu.edu.jpg'
     img_cup = 'cup.jpg'
     img_beverage = 'bev.jpg'
     img_bottle = 'bot.jpg'
