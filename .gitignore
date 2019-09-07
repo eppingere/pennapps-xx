@@ -102,3 +102,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# VS Code environment files
+.vscode
+
+# ZIP files for AWS Lambda deployments
+*.zip

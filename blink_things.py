@@ -1,20 +1,22 @@
 import boto3
-from scipy.spatial import distance as dist
 from imutils.video import FileVideoStream
-from imutils.video import VideoStream
 from imutils import face_utils
 import numpy as np
-import argparse
-import imutils
-import time
 import dlib
 import cv2
 
-def always_true(img_path):
-    return True
+from task.tasks import always_true, check_face, static_object
 
 task_dict = {
-    0 : always_true
+    0 : always_true,
+    1 : static_object,
+    2 : static_object,
+}
+
+task_arg_dict = {
+    0 : {},
+    1 : {'Id':1, 'ObjectLabel':'Shoe', 'ObjectQuality':'exist'},
+    2 : {'Id':2, 'ObjectLabel':'Flip-Flop', 'ObjectQuality':'exist'},
 }
 
 # blink detection constants
@@ -28,7 +30,7 @@ predictor = dlib.shape_predictor("util/shape_predictor_68_face_landmarks.dat")
 (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
 
 
-def check_task(task_id, ref_pic, user_pics):
+def live_check_task(task_id, ref_pic, user_pics):
 
     if not user_blinked(user_pics):
         return False
@@ -110,26 +112,36 @@ def user_blinked(user_pics):
     # return TOTAL > 0
     return True
 
+def check_task (task_id, refPic, livePics):
+    faces_matched = False
 
+    for user_pic in user_pics:
+        if check_face(ref_pic, user_pic):
+            faces_matched = True
 
-def same_face(img1, img2):
-    face_similarity_threshold = 95
-    client=boto3.client('rekognition')
-    response=client.compare_faces(SimilarityThreshold=face_similarity_threshold,
-                                  SourceImage={'Bytes': img1.read()},
-                                  TargetImage={'Bytes': img2.read()})
+    if not faces_matched:
+        return False
 
-    return len(response['FaceMatches']) == 1
+    task_checker = task_dict[task_id]
 
+    for user_pic in user_pics:
+        if task_checker(task_arg_dict[task_id], user_pic):
+            return True
+
+    return False
 
 if __name__ == "__main__":
 
-    img1_path='img/face1.jpg'
-    img2_path='img/face2.jpg'
+    img0_path='img/ref_pic.jpg'
+    img1_path='img/shoe_left.jpg'
+    img2_path='img/flip_flop_right.jpg'
 
+    img0=open(img0_path,'rb')
     img1=open(img1_path,'rb')
     img2=open(img2_path,'rb')
 
-    print("result:", check_task(0, img1, [img2]))
+    print("result:", check_task(0, img0, [img0]))
+    print("result:", check_task(1, img0, [img1]))
+    print("result:", check_task(2, img0, [img2]))
 
     print("ran!!")
