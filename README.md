@@ -24,3 +24,8 @@ To deploy:
 ## Testing 
 Use Postman for testing (API Gateway requires AWS SigV4 signed 
 requests).
+
+## Logo Credits
+People Model by Gan Khoon Lay from the Noun Project
+shoes by Samsul Rizal from the Noun Project
+Laptop by shuai tawf from the Noun Project
