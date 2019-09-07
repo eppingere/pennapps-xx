@@ -6,8 +6,8 @@ from tasks import *
 
 client = boto3.client('rekognition')
 
-def check_task(task_id, refPic, livePics):
-    print('--- Authenticating ---')
+def check_task (task_id, refPic, livePics):
+    # print('--- Authenticating ---')
 
     if not blink_things.user_blinked(livePics):
         return False
@@ -45,10 +45,23 @@ if __name__ == "__main__":
     img1='shoe_left.jpg'
     img2='flip_flop_right.jpg'
     img3='face1.jpg'
+    img_cup = 'cup.jpg'
+    img_beverage = 'bev.jpg'
+    img_bottle = 'bot.jpg'
+    img_finger = 'finger.jpg'
+    img_shoe_right = 'shoe_right.jpg'
 
     print("always_true:", check_task(0, img0, 'face1.jpg'))
     print("shoe_left (should work):", check_task(1, img0, img1))
     print("flip_flop_right (should work):", check_task(2, img0, img2))
     print("shoe_left (should fail):", check_task(2, img3, img2))
     print("flip_flop_right (should fail):", check_task(2, img3, img2))
+    print("cup (should work):", check_task(3, img3, img_cup))
+    print("beverage (should work):", check_task(4, img3, img_beverage))
+    print("bottle (should work):", check_task(5, img3, img_bottle))
+    print("finger (should work):", check_task(6, img3, img_finger))
+    print("shoe_right (should work):", check_task(7, img3, img_shoe_right))
+
+
+
     print("ran!!")

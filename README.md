@@ -1,5 +1,4 @@
-# pennapps-xx
-Pennapps XX Project - Poze
+# Pennapps XX Project - Poze
 
 ## Important Files:
 1. **tasks.py** holds the functions for checking images
