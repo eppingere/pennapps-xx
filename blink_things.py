@@ -33,7 +33,6 @@ def live_check_task(task_id, ref_pic, user_pics):
             continue
 
     if not faces_matched:
-        print("false here")
         return False
 
     task_checker = task_dict[task_id]

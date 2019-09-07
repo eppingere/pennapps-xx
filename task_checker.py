@@ -51,7 +51,6 @@ if __name__ == "__main__":
     img_finger = 'finger.jpg'
     img_shoe_right = 'shoe_right.jpg'
 
-
     assert(check_task(0, img0, 'face1.jpg')) # always_true
     assert(check_task(1, img0, img1)) # shoe_left
     assert(check_task(2, img0, img2)) # flip_flop_right
