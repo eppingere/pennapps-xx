@@ -5,7 +5,6 @@ import blink_things
 from tasks import *
 
 client = boto3.client('rekognition')
-local_run = False
 
 def check_task (task_id, refPic, livePics):
     print('--- Authenticating ---')
@@ -13,30 +12,9 @@ def check_task (task_id, refPic, livePics):
     if not blink_things.user_blinked(livePics):
         return False
 
-    faces_matched = False
-
-    for userPic in livePics:
-        if local_run:
-            refPic.seek(0)
-            userPic.seek(0)
-        print(refPic, userPic)
-        if check_face(client, refPic, userPic):
-            faces_matched = True
-
-    if not faces_matched:
-        return False
-
-    print('--- Confirmed Face ---')
-
     task_checker = task_dict[task_id]
 
-    for userPic in livePics:
-        if local_run:
-            userPic.seek(0)
-        if task_checker(client, task_arg_dict[task_id], userPic):
-            return True
-
-    return False
+    return task_checker(client, task_arg_dict[task_id], livePics, refPic)
 
 def respond(auth, err):
     return {
@@ -51,10 +29,10 @@ def lambda_handler(event, context):
     if event['httpMethod'] == 'POST':
         body = json.loads(event['body'])
         taskId = body['taskId']
-        refPic = body['refPic']
-        livePics = body['livePics']
+        refPicPath = body['refPic']
+        livePicsPath = body['livePics']
 
-        auth = check_task(taskId, refPic, livePics)
+        auth = check_task(taskId, refPic, livePicsPath)
 
         return respond({'auth': auth}, None)
     else:
@@ -62,18 +40,15 @@ def lambda_handler(event, context):
 
 
 if __name__ == "__main__":
-    local_run = True
 
-    img0_path='img/ref_pic.jpg'
-    img1_path='img/shoe_left.jpg'
-    img2_path='img/flip_flop_right.jpg'
+    img0='ref_pic.jpg'
+    img1='shoe_left.jpg'
+    img2='flip_flop_right.jpg'
+    img3='face1.jpg'
 
-    img0=open(img0_path,'rb')
-    img1=open(img1_path,'rb')
-    img2=open(img2_path,'rb')
-
-    print("result:", check_task(0, img0, [img1]))
-    print("result:", check_task(1, img0, [img1]))
-    print("result:", check_task(2, img0, [img2]))
-
+    print("always_true:", check_task(0, img0, 'face1.jpg'))
+    print("shoe_left (should work):", check_task(1, img0, img1))
+    print("flip_flop_right (should work):", check_task(2, img0, img2))
+    print("shoe_left (should fail):", check_task(2, img3, img2))
+    print("flip_flop_right (should fail):", check_task(2, img3, img2))
     print("ran!!")

@@ -1,34 +1,35 @@
-
 import task_checker
 import blink_things
 
-def check_face(client, img1, img2):
+bucket = 'aneekm-bucket'
+
+def check_face_static(client, img1, img2):
     face_similarity_threshold = 95
     response=client.compare_faces(SimilarityThreshold=face_similarity_threshold,
-                                  SourceImage={'Bytes': img1},
-                                  TargetImage={'Bytes': img2})
+                                  SourceImage={'S3Object':{'Bucket':bucket,'Name':img1}},
+                                  TargetImage={'S3Object':{'Bucket':bucket,'Name':img2}})
 
     return len(response['FaceMatches']) == 1
 
 
-def always_true(client, task, img_path):
+def always_true(client, task, img1, img2):
     return True
 
 
-def static_object(client, task, tgt):
+def static_object(client, task, tgt, ref):
     print('--- Static Object Task Starting ---')
+
+    if not check_face_static(client, ref, tgt):
+        return False
+
+    print('--- Confirmed Face ---')
 
     foundObj = False
     foundPerson = False
 
-    #response = client.detect_labels(
-    #    Image={'S3Object':{'Bucket':bucket,'Name':tgt}},
-    #   MaxLabels=10)
-
     response = client.detect_labels(
-        Image={'Bytes': tgt},
-        MaxLabels=20
-    )
+        Image={'S3Object':{'Bucket':bucket,'Name':tgt}},
+        MaxLabels=20)
 
     for label in response['Labels']:
 
