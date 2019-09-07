@@ -19,7 +19,7 @@ Using our API is very easy. To verify the identiy of a user, all you need is:
 
 Its that easy!!!
 
-For a complete definition of our API can be found in our [Swaggerdocs](abc.xyz)
+For a complete definition of our API can be found in our [Swaggerdocs](http://eppi.ng/pennapps-xx/swagger/)
 
 For an example of how to use the Poze API is in our [demo](https://github.com/eppingere/pennapps-xx/tree/master/flask_demo_site3). 
 
