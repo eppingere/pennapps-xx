@@ -1,5 +1,5 @@
 # pennapps-xx
-Poze: Private and Secure Identity Verification
+Poze: Captcha-Style Identity Verification via Interactive Microgames
 
 ## Inspiration
 An increasingly common problem for sites is dealing with fake users, users impersonating other users, and enforcement of best security practices with users. This problem is so severe that in [2018 Q4, Facebook recognized 118 Million impersonated accounts](https://www.nytimes.com/2019/01/30/technology/facebook-fake-accounts.html). Facebook's solution is to [ask users to upload photos of government issued IDs](https://kmph.com/news/local/facebook-is-asking-people-to-submit-their-ids-to-prove-their-accounts-are-real). However, this is an imperfect solution. Firstly, government IDs are quite easy to fake in real life, let alone in an image. Secondly, users may be understandably worried uploading images of personally identifiable documents to Facebook and other sites. Our goal was to create a method to verify the identities of users without requiring any personally identifiable documents. 
