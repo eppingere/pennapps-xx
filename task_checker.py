@@ -1,5 +1,6 @@
 import boto3
 import json
+import blink_things
 
 from tasks import *
 
@@ -8,19 +9,24 @@ local_run = False
 
 def check_task (task_id, refPic, livePics):
     print('--- Authenticating ---')
+
+    if not blink_things.user_blinked(livePics):
+        return False
+
     faces_matched = False
 
     for userPic in livePics:
         if local_run:
             refPic.seek(0)
             userPic.seek(0)
+        print(refPic, userPic)
         if check_face(client, refPic, userPic):
             faces_matched = True
 
-    print('--- Confirmed Face ---')
-
     if not faces_matched:
         return False
+
+    print('--- Confirmed Face ---')
 
     task_checker = task_dict[task_id]
 
@@ -51,7 +57,7 @@ def lambda_handler(event, context):
         auth = check_task(taskId, refPic, livePics)
 
         return respond({'auth': auth}, None)
-    else: 
+    else:
         return respond(None, {'message':'This endpoint only accepts POST requests!'})
 
 
