@@ -16,7 +16,7 @@ def always_true(client, task, img1, img2):
 def static_object(client, task, tgt, ref):
 
     if not check_face_static(client, ref, tgt):
-        err_msg = 'Failed to match faces.'
+        err_msg = 'Error: Face does not match reference image on file.'
         print(err_msg)
         return {'res': False, 'reason': err_msg}
 
@@ -56,11 +56,11 @@ def static_object(client, task, tgt, ref):
             return {'res': True, 'reason': ''}
     else:
         print('Found Object:', foundObj, 'Found Person:', foundPerson)
-        err_msg = 'Could not find'
+        err_msg = 'Erro: Could not find'
         if not foundObj:
-            err_msg += 'Object '
+            err_msg += ' object.'
         if not foundPerson:
-            err_msg += 'Person'
+            err_msg += ' person.'
         return {'res': False, 'reason': err_msg}
 
 task_dict = {
