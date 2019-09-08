@@ -1,6 +1,8 @@
 # Poze
+Strike a Poze! An API for Private and Secure Identity Verification
 
-## API for Captcha-Style Identity Verification via Interactive Microgames
+Proudly built by [Aneek Mukherjee](https://aneekm.com), [Conlon Novak](https://conlonnovak.com), [Emmanuel Eppinger](https://eppi.ng), and [Eugene Luo](https://eyluo.github.io)
+
 
 ## Inspiration
 An increasingly common problem for sites is dealing with fake users, users impersonating other users, and enforcement of best security practices with users. This problem is so severe that in [2018 Q4, Facebook identified 118 million impersonated accounts](https://www.nytimes.com/2019/01/30/technology/facebook-fake-accounts.html). Facebook's solution was to [ask users to upload photos of government issued IDs](https://kmph.com/news/local/facebook-is-asking-people-to-submit-their-ids-to-prove-their-accounts-are-real). However, this is an imperfect solution. Firstly, government IDs are quite easy to fake in real life, let alone in an image. Secondly, users may be understandably worried uploading images of personally identifiable documents onto the Internet. Our goal was to create a method to verify the identities of users without requiring any personally identifiable documents. 
