@@ -56,9 +56,9 @@ def static_object(client, task, tgt, ref):
                 personRight = personLeft + label['Instances'][0]['BoundingBox']['Width']
 
     if foundObj and foundPerson:
-        if task['ObjectQuality'] == 'left':
+        if task['ObjectQuality'] == 'right':
             return {'res': objLeft < personLeft, 'reason': 'Quality'}
-        elif task['ObjectQuality'] == 'right':
+        elif task['ObjectQuality'] == 'left':
             return {'res': objRight > personRight, 'reason': 'Quality'}
         elif task['ObjectQuality'] == 'exist':
             return {'res': True, 'reason': ''}
@@ -85,13 +85,13 @@ task_dict = {
 
 task_arg_dict = {
     0 : {},
-    1 : {'Id':1, 'ObjectLabel':'Shoe', 'ObjectQuality':'right'},
+    1 : {'Id':1, 'ObjectLabel':'Shoe', 'ObjectQuality':'left'},
     2 : {'Id':2, 'ObjectLabel':'Flip-Flop', 'ObjectQuality':'exist'},
     3 : {'Id':3, 'ObjectLabel':'Cup', 'ObjectQuality':'exist'},
     4 : {'Id':4, 'ObjectLabel':'Beverage', 'ObjectQuality':'exist'},
     5 : {'Id':5, 'ObjectLabel':'Bottle', 'ObjectQuality':'exist'},
     6 : {'Id':6, 'ObjectLabel':'Finger', 'ObjectQuality':'exist'},
-    7 : {'Id':7, 'ObjectLabel':'Shoe', 'ObjectQuality':'left'},
+    7 : {'Id':7, 'ObjectLabel':'Shoe', 'ObjectQuality':'right'},
     8 : {'Id':8, 'ObjectLabel':'Bag', 'ObjectQuality':'exist'},
 }
 
