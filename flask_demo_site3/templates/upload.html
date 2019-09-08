@@ -2,186 +2,189 @@
 <html>
 
 <head>
-    <title>Poze</title>
-    <meta charset='utf-8'>
-    <link rel="stylesheet" href="styles.css" type="text/css" media="all">
-    <title>PrivacyBook - Registration</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='poze.ico') }}">
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.524.0.min.js"></script>
-    <script>
-        var photoID = '{{ photoID }}';
-        var albumBucketName = 'aneekm-bucket';
-        var flag = true;
-        var s3 = null;
+  <title>Poze</title>
+  <meta charset='utf-8'>
+  <link rel="stylesheet" href="styles.css" type="text/css" media="all">
+  <title>PrivacyBook - Registration</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='poze.ico') }}">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.524.0.min.js"></script>
+  <script>
+    var photoID = '{{ photoID }}';
+    var albumBucketName = 'aneekm-bucket';
+    var flag = true;
+    var s3 = null;
 
-        // **DO THIS**:
-        //   Replace this block of code with the sample code located at:
-        //   Cognito -- Manage Identity Pools -- [identity_pool_name] -- Sample Code -- JavaScript
-        //
-        // Initialize the Amazon Cognito credentials provider
-        AWS.config.region = 'us-east-1'; // Region
-        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-            IdentityPoolId: 'us-east-1:324593c3-5bec-4130-a991-eab3b9f83dc7',
+    // **DO THIS**:
+    //   Replace this block of code with the sample code located at:
+    //   Cognito -- Manage Identity Pools -- [identity_pool_name] -- Sample Code -- JavaScript
+    //
+    // Initialize the Amazon Cognito credentials provider
+    AWS.config.region = 'us-east-1'; // Region
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: 'us-east-1:324593c3-5bec-4130-a991-eab3b9f83dc7',
+    });
+
+    AWS.config.credentials.clearCachedId();
+
+    // Make the call to obtain credentials
+    AWS.config.credentials.get(function() {
+      // Credentials will be available when this function is called.
+      var accessKeyId = AWS.config.credentials.accessKeyId;
+      var secretAccessKey = AWS.config.credentials.secretAccessKey;
+      var sessionToken = AWS.config.credentials.sessionToken;
+
+      // Add your code here that uses the credentials
+      console.log(AWS.config.credentials)
+    }, function(err) {
+      console.log(err)
+    });
+
+    // Create a new service object
+    s3 = new AWS.S3({
+      apiVersion: '2006-03-01',
+    });
+
+    (function() {
+      var email = prompt("What is your email address?");
+      // The width and height of the captured photo. We will set the
+      // width to the value defined here, but the height will be
+      // calculated based on the aspect ratio of the input stream.
+
+      var width = 320; // We will scale the photo width to this
+      var height = 0; // This will be computed based on the input stream
+
+      // |streaming| indicates whether or not we're currently streaming
+      // video from the camera. Obviously, we start at false.
+
+      var streaming = false;
+
+      // The various HTML elements we need to configure or control. These
+      // will be set by the startup() function.
+
+      var video = null;
+      var canvas = null;
+      var photo = null;
+      var startbutton = null;
+
+      function base64ToBlob(imageURI) {
+        var binary = atob(imageURI.split(',')[1]);
+        var array = [];
+        for (var i = 0; i < binary.length; i++) {
+          array.push(binary.charCodeAt(i));
+        }
+
+        var mimeString = imageURI.split(',')[0].split(':')[1].split(';')[0];
+        return new Blob([new Uint8Array(array)], {
+          type: mimeString
         });
+      }
 
-        AWS.config.credentials.clearCachedId();
+      function startup() {
+        video = document.getElementById('video');
+        canvas = document.getElementById('canvas');
+        canvas.style.display = "none";
+        photo = document.getElementById('photo');
+        startbutton = document.getElementById('startbutton');
 
-        // Make the call to obtain credentials
-        AWS.config.credentials.get(function () {
-            // Credentials will be available when this function is called.
-            var accessKeyId = AWS.config.credentials.accessKeyId;
-            var secretAccessKey = AWS.config.credentials.secretAccessKey;
-            var sessionToken = AWS.config.credentials.sessionToken;
+        navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: false
+          })
+          .then(function(stream) {
+            video.srcObject = stream;
+            video.play();
+          })
+          .catch(function(err) {
+            console.log("An error occurred: " + err);
+          });
 
-            // Add your code here that uses the credentials
-            console.log(AWS.config.credentials)
-        }, function (err) {
-            console.log(err)
-        });
+        video.addEventListener('canplay', function(ev) {
+          if (!streaming) {
+            height = video.videoHeight / (video.videoWidth / width);
 
-        // Create a new service object
-        s3 = new AWS.S3({
-            apiVersion: '2006-03-01',
-        });
+            // Firefox currently has a bug where the height can't be read from
+            // the video, so we will make assumptions if this happens.
 
-        (function () {
-            var email = prompt("What is your email address?");
-            // The width and height of the captured photo. We will set the
-            // width to the value defined here, but the height will be
-            // calculated based on the aspect ratio of the input stream.
-
-            var width = 320;    // We will scale the photo width to this
-            var height = 0;     // This will be computed based on the input stream
-
-            // |streaming| indicates whether or not we're currently streaming
-            // video from the camera. Obviously, we start at false.
-
-            var streaming = false;
-
-            // The various HTML elements we need to configure or control. These
-            // will be set by the startup() function.
-
-            var video = null;
-            var canvas = null;
-            var photo = null;
-            var startbutton = null;
-
-            function base64ToBlob(imageURI) {
-                var binary = atob(imageURI.split(',')[1]);
-                var array = [];
-                for (var i = 0; i < binary.length; i++) {
-                    array.push(binary.charCodeAt(i));
-                }
-
-                var mimeString = imageURI.split(',')[0].split(':')[1].split(';')[0];
-                return new Blob([new Uint8Array(array)], {
-                    type: mimeString
-                });
+            if (isNaN(height)) {
+              height = width / (4 / 3);
             }
 
-            function startup() {
-                video = document.getElementById('video');
-                canvas = document.getElementById('canvas');
-                canvas.style.display = "none";
-                photo = document.getElementById('photo');
-                startbutton = document.getElementById('startbutton');
+            video.setAttribute('width', width);
+            video.setAttribute('height', height);
+            canvas.setAttribute('width', width);
+            canvas.setAttribute('height', height);
+            streaming = true;
+          }
+        }, false);
 
-                navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-                    .then(function (stream) {
-                        video.srcObject = stream;
-                        video.play();
-                    })
-                    .catch(function (err) {
-                        console.log("An error occurred: " + err);
-                    });
+        startbutton.addEventListener('click', function(ev) {
+          takepicture();
+          ev.preventDefault();
+        }, false);
 
-                video.addEventListener('canplay', function (ev) {
-                    if (!streaming) {
-                        height = video.videoHeight / (video.videoWidth / width);
+        clearphoto();
+      }
 
-                        // Firefox currently has a bug where the height can't be read from
-                        // the video, so we will make assumptions if this happens.
+      // Fill the photo with an indication that none has been
+      // captured.
 
-                        if (isNaN(height)) {
-                            height = width / (4 / 3);
-                        }
+      function clearphoto() {
+        var context = canvas.getContext('2d');
+        context.fillStyle = "#AAA";
+        context.fillRect(0, 0, canvas.width, canvas.height);
 
-                        video.setAttribute('width', width);
-                        video.setAttribute('height', height);
-                        canvas.setAttribute('width', width);
-                        canvas.setAttribute('height', height);
-                        streaming = true;
-                    }
-                }, false);
+        var data = canvas.toDataURL('image/png');
+        photo.setAttribute('src', data);
+      }
 
-                startbutton.addEventListener('click', function (ev) {
-                    takepicture();
-                    ev.preventDefault();
-                }, false);
+      // Capture a photo by fetching the current contents of the video
+      // and drawing it into a canvas, then converting that to a PNG
+      // format data URL. By drawing it on an offscreen canvas and then
+      // drawing that to the screen, we can change its size and/or apply
+      // other changes before drawing it.
 
-                clearphoto();
+      function takepicture() {
+        while (!s3);
+        var context = canvas.getContext('2d');
+        if (width && height) {
+          canvas.width = width;
+          canvas.height = height;
+          context.drawImage(video, 0, 0, width, height);
+
+          var data = canvas.toDataURL('image/png');
+          photo.setAttribute('src', data);
+
+          console.log(photoID);
+
+          blobData = base64ToBlob(data);
+
+          s3.putObject({
+            Body: blobData,
+            Bucket: albumBucketName,
+            Key: email + '.png',
+            // ContentEncoding: 'base64',
+            ContentType: 'image/png',
+          }, function(err, data) {
+            if (err) {
+              console.log(err)
+              return alert('There was an error uploading your photo: ', err.message);
             }
+            alert('Successfully uploaded photo.');
+            setTimeout(window.location.replace('http://127.0.0.1:5000/'), 1500);
+          });
+        } else {
+          clearphoto();
+        }
+      }
 
-            // Fill the photo with an indication that none has been
-            // captured.
-
-            function clearphoto() {
-                var context = canvas.getContext('2d');
-                context.fillStyle = "#AAA";
-                context.fillRect(0, 0, canvas.width, canvas.height);
-
-                var data = canvas.toDataURL('image/png');
-                photo.setAttribute('src', data);
-            }
-
-            // Capture a photo by fetching the current contents of the video
-            // and drawing it into a canvas, then converting that to a PNG
-            // format data URL. By drawing it on an offscreen canvas and then
-            // drawing that to the screen, we can change its size and/or apply
-            // other changes before drawing it.
-
-            function takepicture() {
-                while (!s3);
-                var context = canvas.getContext('2d');
-                if (width && height) {
-                    canvas.width = width;
-                    canvas.height = height;
-                    context.drawImage(video, 0, 0, width, height);
-
-                    var data = canvas.toDataURL('image/png');
-                    photo.setAttribute('src', data);
-
-                    console.log(photoID);
-
-                    blobData = base64ToBlob(data);
-
-                    s3.putObject({
-                        Body: blobData,
-                        Bucket: albumBucketName,
-                        Key: email + '.png',
-                        // ContentEncoding: 'base64',
-                        ContentType: 'image/png',
-                    }, function (err, data) {
-                        if (err) {
-                            console.log(err)
-                            return alert('There was an error uploading your photo: ', err.message);
-                        }
-                        alert('Successfully uploaded photo.');
-                        setTimeout(window.location.replace('http://127.0.0.1:5000/'), 1500);
-                    });
-                } else {
-                    clearphoto();
-                }
-            }
-
-            // Set up our event listener to run the startup process
-            // once loading is complete.
-            window.addEventListener('load', startup, false);
-        })();
-    </script>
-    <!--   <script type="text/javascript">
+      // Set up our event listener to run the startup process
+      // once loading is complete.
+      window.addEventListener('load', startup, false);
+    })();
+  </script>
+  <!--   <script type="text/javascript">
      function new_prompt() {
         window.location.href = "";
       }
@@ -190,45 +193,42 @@
 
 
 <body>
-    <section class="section">
-        <div class="container">
-            <h1 class="title is-1">
-                <a href="/">PrivacyBook</a>
-            </h1>
-            <h2 class="title is-2">
-                Authenticate using Poze
-            </h2>
-            <p class="subtitle">
-                To verify your identity, please provide the following:
-            </p>
-            <div class="tile is-ancestor">
+  <section class="section">
+    <div class="container">
+      <h1 class="title is-1">
+        <a href="/">PrivacyBook</a>
+      </h1>
+      <h2 class="title is-2">
+        Upload a photo for your security and identification
+      </h2>
+      <div class="tile is-ancestor">
+      </div>
+      <div class="tile is-ancestor">
+        <div class="tile is-parent">
+          <article class="tile is-child notification is-info">
+            <div class="camera">
+              <video id="video">Video stream not available. Please allow access to your camera to complete
+                the above task.
+              </video>
             </div>
-            <div class="tile is-ancestor">
-                <div class="tile is-parent">
-                    <article class="tile is-child notification is-info">
-                        <div class="camera">
-                            <video id="video">Video stream not available. Please allow access to your camera to complete
-                                the above task.
-                            </video>
-                        </div>
-                        <br />
-                        <div class="buttons has-addons is-right">
-                            <a id="startbutton" class="button is-link is-large is-success">Capture</a>
-                        </div>
-                    </article>
-                </div>
-                <div class="tile is-parent">
-                    <article class="tile is-child notification is-info">
-                        <canvas id="canvas" class="hide" alt="The screen capture will appear in this box.">
-                        </canvas>
-                        <div class="output">
-                            <img id="photo" alt="The screen capture will appear in this box.">
-                        </div>
-                    </article>
-                </div>
+            <br />
+            <div class="buttons has-addons is-right">
+              <a id="startbutton" class="button is-link is-large is-success">Capture</a>
             </div>
+          </article>
         </div>
-    </section>
+        <div class="tile is-parent">
+          <article class="tile is-child notification is-info">
+            <canvas id="canvas" class="hide" alt="The screen capture will appear in this box.">
+            </canvas>
+            <div class="output">
+              <img id="photo" alt="The screen capture will appear in this box.">
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
 </body>
 
 </html>
