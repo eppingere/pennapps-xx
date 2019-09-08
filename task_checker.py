@@ -6,7 +6,7 @@ from tasks import *
 
 client = boto3.client('rekognition')
 
-def check_task (task_id, refPic, livePics):
+def check_task (task_id, refPicPath, livePicsPath):
     # print('--- Authenticating ---')
 
     #if not blink_things.user_blinked(livePics):
@@ -14,7 +14,7 @@ def check_task (task_id, refPic, livePics):
 
     task_checker = task_dict[task_id]
 
-    return task_checker(client, task_arg_dict[task_id], livePics, refPic)
+    return task_checker(client, task_arg_dict[task_id], livePicsPath, refPicPath)
 
 def respond(auth, err):
     return {
