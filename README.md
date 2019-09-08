@@ -1,3 +1,5 @@
+<link rel="shortcut icon" href="http://strikeapoze.tech/img/poze.ico" />
+
 # Poze
 Strike a Poze! An API for Private and Secure Identity Verification
 
