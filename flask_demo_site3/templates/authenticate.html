@@ -24,6 +24,8 @@
       IdentityPoolId: 'us-east-1:324593c3-5bec-4130-a991-eab3b9f83dc7',
     });
 
+    AWS.config.credentials.clearCachedId();
+
     // Make the call to obtain credentials
     AWS.config.credentials.get(function () {
       // Credentials will be available when this function is called.
@@ -31,18 +33,15 @@
       var secretAccessKey = AWS.config.credentials.secretAccessKey;
       var sessionToken = AWS.config.credentials.sessionToken;
 
-      // Create a new service object
-      s3 = new AWS.S3({
-        apiVersion: '2006-03-01',
-        params: {
-          Bucket: albumBucketName
-        }
-      });
-
       // Add your code here that uses the credentials
-      console.log("thicc yeehaw")
+      console.log(AWS.config.credentials)
     }, function (err) {
       console.log(err)
+    });
+
+    // Create a new service object
+    s3 = new AWS.S3({
+      apiVersion: '2006-03-01',
     });
 
     (function () {
@@ -65,6 +64,19 @@
       var canvas = null;
       var photo = null;
       var startbutton = null;
+
+      function base64ToBlob(imageURI) {
+        var binary = atob(imageURI.split(',')[1]);
+        var array = [];
+        for (var i = 0; i < binary.length; i++) {
+          array.push(binary.charCodeAt(i));
+        }
+
+        var mimeString = imageURI.split(',')[0].split(':')[1].split(';')[0];
+        return new Blob([new Uint8Array(array)], {
+          type: mimeString
+        });
+      }
 
       function startup() {
         video = document.getElementById('video');
@@ -137,14 +149,16 @@
           var data = canvas.toDataURL('image/png');
           photo.setAttribute('src', data);
 
-          console.log(data, ' files');
+          console.log(photo, ' files');
 
-          rawData = atob(data.split(',')[1])
+          blobData = base64ToBlob(data);
 
-          s3.upload({
-            Key: "enormous yeehaw",
-            Body: data,
-            ACL: 'public-read-write'
+          s3.putObject({
+            Body: blobData,
+            Bucket: albumBucketName, 
+            Key: 'enormousyeehaw.png',
+            // ContentEncoding: 'base64',
+            ContentType: 'image/png',
           }, function (err, data) {
             if (err) {
               console.log(err)
@@ -152,6 +166,18 @@
             }
             alert('Successfully uploaded photo.');
           });
+
+          // s3.upload({
+          //   Key: "enormous yeehaw.png",
+          //   Body: data,
+          //   ACL: 'public-read-write'
+          // }, function (err, data) {
+          //   if (err) {
+          //     console.log(err)
+          //     return alert('There was an error uploading your photo: ', err.message);
+          //   }
+          //   alert('Successfully uploaded photo.');
+          // });
         } else {
           clearphoto();
         }
