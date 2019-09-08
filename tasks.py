@@ -56,7 +56,7 @@ def static_object(client, task, tgt, ref):
             return {'res': True, 'reason': ''}
     else:
         print('Found Object:', foundObj, 'Found Person:', foundPerson)
-        err_msg = 'Erro: Could not find'
+        err_msg = 'Error: Could not find'
         if not foundObj:
             err_msg += ' object.'
         if not foundPerson:
