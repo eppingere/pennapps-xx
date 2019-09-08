@@ -20,7 +20,7 @@ def static_object(client, task, tgt, ref):
 
     face_match = check_face_static(client, ref, tgt)
     if face_match == 2:
-        err_msg = 'Failed to match faces.'
+        err_msg = 'Error: Face does not match reference image on file.'
         print(err_msg)
         return {'res': False, 'reason': err_msg}
     elif face_match == 1:
@@ -64,11 +64,11 @@ def static_object(client, task, tgt, ref):
             return {'res': True, 'reason': ''}
     else:
         print('Found Object:', foundObj, 'Found Person:', foundPerson)
-        err_msg = 'Could not find'
+        err_msg = 'Erro: Could not find'
         if not foundObj:
-            err_msg += 'Object '
+            err_msg += ' object.'
         if not foundPerson:
-            err_msg += 'Person'
+            err_msg += ' person.'
         return {'res': False, 'reason': err_msg}
 
 task_dict = {

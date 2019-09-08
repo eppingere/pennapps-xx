@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PrivacyBook - Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='poze.ico') }}">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
   <body>
   <section class="section">
     <div class="container">
       <h1 class="title is-1">
-        Welcome to PrivacyBook!
+        <a href="/">PrivacyBook</a>
       </h1>
 <!--       <p class="subtitle">
         What do you want to do?
@@ -21,28 +22,43 @@
 	        <article class="tile is-child notification is-info">
 	          <p class="title">Connect with Your Friends</p>
 	          <!-- <p class="subtitle">Top tile</p> -->
-			  <a href="login" class="button is-link is-large">Login</a>
+			  <a href="login" class="button is-success is-large is-right">Login</a>
 	        </article>
 	    </div>
 	    <div class="tile is-parent is-info is-4">
 	        <article class="tile is-child notification is-primary">
 	          <p class="title">Create a Secure Account</p>
 	          <!-- <p class="subtitle">Top tile</p> -->
-			  <a href="" class="button is-info is-large">Register</a>
+			  <a href="" class="button is-info is-large is-right">Register</a>
 	        </article>
 	    </div>
 	  </div>
     </div>
-  </section>
-  <!-- <section class="section">
+<br/>
   	<div class="container">
-		<h2 class="title is-2">Features</h2>
+		<h2 class="title is-2">What is this?</h2>
+			<p>
+				"PrivacyBook" is a mock social network login workflow designed to demonstrate one possible implementation of the <a href="https://devpost.com/software/poze">Poze user verification API.</a> In this case, the site represents an entirely fictional social network that used to be exceptionally popular (boasting billions of regular users), but recently has faced an overwhelming problem with fake "bot accounts" masqurading as real people. One account, belonging to username <a href="mailto:conlonn@andrew.cmu.edu">conlonn@andrew.cmu.edu</a>, has been (wrongly) flagged as a possible "bot account," and is subjected to extra scrutiny upon their next attempted login. 
+			</p>
+			<br/>
+			<p>
+				This is where Poze comes in. Using an existing photo as reference, the site asks Conlon (the user) to complete a simple task to prove that he's a human. Beyond being a CAPTCHA, this new photo is compared against the reference photo using Amazon Rekognition to determine that it is indeed the same user (haircuts and glasses notwithstanding). Having passed this first check, Poze then determines if the user successfully completed the task within the required timeframe. The combination of randomly generated prompts and a timeboxed interaction window works to ensure that the picture can't be spoofed or deepfaked.
+			</p>
+		<br/>
+		<h2 class="title is-2">Poze API Features</h2>
 		<ul> 
-			<li>• Live, to-the-minute ER wait times based on user and hospital reports.</li>
-			<li>• Distance and directions to hospitals and other medical facilities in your area. </li>
-			<li>• Insurance options for various locations on one screen</li> 
-		</ul> 
-	</div>
-  </section> -->
+			<li>• Randomly generated and timeboxed micro-activities allow users to prove that they're the same human without submitting government IDs to monolithic corporations.</li>
+			<li>• API microservice design lends itself to further implementations, including AR and miexed reality tasks.</li>
+			<li>• Honestly? It's just plain fun. When was the last time you enjoyed filling out a CAPTCHA?</li>
+		</ul>
+		<br/>
+		<h2 class="title is-2">Where can I find out more?</h2>
+			<ul> 
+				<li>• <a href="https://github.com/eppingere/pennapps-xx">Poze GitHub Repo</a></li>
+				<li>• <a href="http://eppi.ng/pennapps-xx/">Poze GitHub Site</a></li>
+				<li>• <a href="http://eppi.ng/pennapps-xx/swagger/">Poze API SwaggerDocs</a></li>
+			</ul>
+		</div>
+	  </section>
   </body>
 </html>
