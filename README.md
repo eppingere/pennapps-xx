@@ -15,13 +15,12 @@ An increasingly common problem for sites is dealing with fake users, users imper
 Poze is a 2-factor authentication API designed to turn the stressful activity of account recovery and identity verification into a small, fun activity. The API works by asking users to "strike a Poze", that is, to do small, silly tasks on camera. Using Computer Vision, Poze then verifies that the user is accomplishing the task as specified and verifying that the person on camera is the correct owner of an account. For example, [if a scammer were to fake their identity on Facebook by using pictures of existing users](https://www.nytimes.com/2019/07/28/technology/facebook-military-scam.html), Facebook could provide both accounts the opportunity to confirm their identity by striking a Poze. The logic behind this verification process is that it is extremely unlikely that the average person has a picture of them online, say, with a shoe on their head or a banana next to their face. Thus, when given the captured image of the user, Poze verifies that the person accomplishing their Poze in the video or image is the person they claim to be.
 
 ## How to Use Poze
-Poze's API is designed for simple and easy yet effective use. To verify the identiy of a user, follow the steps below:
+Poze's API is designed for simple and easy yet effective use. To verify the identiy of a user, you will need the following.
 
 1. A photo of the user. You can get this before starting to use our API in each verification or you could pull this from data that the user has already provided.
-2. Call our `api.strikeapoze.tech/get-task`, which will provide a Poze to ask the user to complete and a task ID.
-3. Record a picture/video of the user accomplishing the task.
-4. Send the recording to our `api.strikeapoze.tech/check-task` API.
-5. Receive a `bool` representing whether or not the user has been verified
+2. A call to our `api.strikeapoze.tech/get-task`, which will provide a Poze to ask the user to complete and a task ID.
+3. A picture/video of the user accomplishing the task.
+4. Sending the recording to our `api.strikeapoze.tech/check-task` API, which will return a `bool` representing whether or not the user has been verified.
 
 A complete definition of our API can be found in our [Swaggerdocs](http://eppi.ng/pennapps-xx/swagger/).
 
