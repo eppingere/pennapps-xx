@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="img/poze_icon-01.png" width="200" height="236" />
+  <img src="img/poze.png" height="300" />
 </p>
 
 # Poze
