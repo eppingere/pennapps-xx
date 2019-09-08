@@ -56,7 +56,6 @@ def static_object(client, task, tgt, ref):
                 personRight = personLeft + label['Instances'][0]['BoundingBox']['Width']
 
     if foundObj and foundPerson:
-        print("found both")
         if task['ObjectQuality'] == 'right':
             return {'res': objLeft < personLeft, 'reason': 'Quality'}
         elif task['ObjectQuality'] == 'left':
