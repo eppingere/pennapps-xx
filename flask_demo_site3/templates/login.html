@@ -5,23 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PivacyBook - Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='poze.ico') }}">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
   <body>
   <section class="section">
     <div class="container">
-      <h1 class="title">
-        PivacyBook
+      <h1 class="title is-1">
+        <a href="/">PrivacyBook</a>
       </h1>
-      <form action="/login" method = "POST"> 
-          Username:<br>
-            <input type="text" name="username">
-            <br>
-          Password:<br>
-            <input type="password" name="password">
-            <br><br>
-            <input type="submit" value="Submit" class="button is-link is-medium">
-        </form>
+      <div class="tile is-ancestor">
+        <div class="tile is-parent is-4">
+          <article class="tile is-child notification is-info">
+            <form action="/login" method = "POST"> 
+                <div class="field">
+                  <p class="control has-icons-left has-icons-right">
+                    <input class="input" type="email" placeholder="Email" name="username">
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-envelope"></i>
+                    </span>
+                    <span class="icon is-small is-right">
+                      <i class="fas fa-check"></i>
+                    </span>
+                  </p>
+                </div>
+                <div class="field">
+                  <p class="control has-icons-left">
+                    <input class="input" type="password" placeholder="Password" name="password">
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-lock"></i>
+                    </span>
+                  </p>
+                </div>
+                <div class="buttons has-addons is-right">
+                  <input type="submit" value="Submit" class="button is-link is-medium is-success">
+                </div>
+            </form>
+          </article>
+        </div>
+      </div>
 <!--     <br/>
     <div class="container">
       <a href="/" class="button is-warning is-small">&lt; Home</a>

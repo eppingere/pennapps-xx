@@ -5,6 +5,10 @@
   <title>Poze</title>
   <meta charset='utf-8'>
   <link rel="stylesheet" href="main.css" type="text/css" media="all">
+  <title>PrivacyBook - Poze Authentication</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='poze.ico') }}">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   <script src="https://sdk.amazonaws.com/js/aws-sdk-2.524.0.min.js"></script>
   <script>
     // **DO THIS**:
@@ -162,33 +166,54 @@
       window.addEventListener('load', startup, false);
     })();
   </script>
+  <script type="text/javascript">
+     function new_prompt() {
+        window.location.href = "/authenticate/";
+      }
+  </script>
 </head>
 
-<body>
-  <div class="contentarea">
-    <h1>
-      Authenticate
-    </h1>
-    <p>
-      To verify the authenticity of this account, please provide the following:
-    </p>
-    <p>
-      {{ prompt }}
-    </p>
-    <div class="camera">
-      <video id="video">Video stream not available.</video>
-      <button id="startbutton">Take photo</button>
-    </div>
-    <canvas id="canvas" alt="The screen capture will appear in this box.">
-    </canvas>
-    <div class="output">
-      <img id="photo" alt="The screen capture will appear in this box.">
-    </div>
-    <p>
-      Visit our article <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Taking_still_photos">
-        Taking still photos with WebRTC</a> to learn more about the technologies used here.
-    </p>
-  </div>
-</body>
 
+  <body>
+    <section class="section">
+      <div class="container">
+        <h1 class="title is-1">
+          <a href="/">PrivacyBook</a>
+        </h1>
+        <h2 class="title is-2">
+        Authenticate using Poze
+        </h2>
+        <p class="subtitle">
+          To verify your identity, please provide the following:
+        </p>
+        <div class="tile is-ancestor">
+          <div class="tile is-parent">
+            <article class="tile is-child notification is-info">
+              <p class="title">{{ prompt[0]|upper}}{{prompt[1:] }}</p>
+<!--                 <a class="button is-link is-warning" onClick="{{ url_for(authenticate) }}">New Prompt</a> -->
+            </article>
+          </div>
+        </div>
+        <div class="tile is-ancestor">
+          <div class="tile is-parent">
+            <article class="tile is-child notification is-info">
+              <div class="camera">
+                <video id="video">Video stream not available. Please allow access to your camera to complete the above task.
+                </video>
+              </div>
+              <br/>
+              <div class="buttons has-addons is-right">
+                <a id="startbutton" class="button is-link is-large is-success">Capture</a>
+              </div>
+            </article>
+          </div>
+          <div class="tile is-parent">
+            <article class="tile is-child notification is-info">
+              <canvas id="canvas" alt="The screen capture will appear in this box.">
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
 </html>

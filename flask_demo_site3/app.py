@@ -19,6 +19,9 @@ auth = BotoAWSRequestsAuth(aws_host='htozj1y344.execute-api.us-east-1.amazonaws.
 
 user = None
 prompt = None
+taskID = None
+objectType = None
+quality = None
 
 # Create an S3 client
 s3 = boto3.client('s3')
@@ -47,26 +50,38 @@ def success():
 	return render_template('success.html')
 
 
+@app.route("/failure")
+def failure():
+	return render_template('failure.html')
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
 	global user, prompt
 	username = request.form.get("username")
 	print(username)
 	if checkUsername(username):
-		taskID, objectType, quality = getTaskInfo()
+		refreshTaskInfo()
 		if (quality == "exist"):
 			prompt = 'a picture of you holding a %s' % (objectType.lower())
 		else:
 			prompt = 'a picture of you holding a %s on the %s side of your face' % (objectType.lower(), quality.lower())
-		return render_template('authenticate.html', prompt=prompt)
+		return redirect(url_for('authenticate'))
 	return render_template('login.html')
 
 @app.route("/authenticate/", methods=["GET", "POST"])
 def authenticate():
-	return render_template('authenticate.html')
+	refreshTaskInfo()
+	return render_template('authenticate.html', prompt=prompt)
 	# if twoFactorAuthenticate(user):
 	# 	return render_template('success.html')
 	# return render_template('login.html')
+
+@app.route('/task_refresh')
+def task_refresh():
+    # refreshTaskInfo()
+    return("Hello")
+
 
 def checkUsername(username): 
 	users = ["conlonn@andrew.cmu.edu", 'aneekm@andrew.cmu.edu',
@@ -87,6 +102,11 @@ def twoFactorAuthenticate(username):
 	# uploadPhotoS3(pic)
 	# return checkTask(taskID, username, livePath)
 	return True
+
+def refreshTaskInfo():
+	global taskID, objectType, quality
+	taskID, objectType, quality = getTaskInfo()
+
 
 def getTaskInfo(): #TO-DO? Mostly done?
 	global auth
