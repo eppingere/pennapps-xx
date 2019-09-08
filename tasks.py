@@ -10,16 +10,15 @@ def check_face_static(client, img1, img2):
 
 
 def always_true(client, task, img1, img2):
-    return True
+    return {'res': True, 'reason': ''}
 
 
 def static_object(client, task, tgt, ref):
-    # print('--- Static Object Task Starting ---')
 
     if not check_face_static(client, ref, tgt):
-        return False
-
-    # print('--- Confirmed Face ---')
+        err_msg = 'Failed to match faces.'
+        print(err_msg)
+        return {'res': False, 'reason': err_msg}
 
     foundObj = False
     foundPerson = False
@@ -50,13 +49,19 @@ def static_object(client, task, tgt, ref):
 
     if foundObj and foundPerson:
         if task['ObjectQuality'] == 'left':
-            return objLeft < personLeft
+            return {'res': objLeft < personLeft, 'reason': 'Quality'}
         elif task['ObjectQuality'] == 'right':
-            return objRight > personRight
+            return {'res': objRight > personRight, 'reason': 'Quality'}
         elif task['ObjectQuality'] == 'exist':
-            return True
+            return {'res': True, 'reason': ''}
     else:
-        return False
+        print('Found Object:', foundObj, 'Found Person:', foundPerson)
+        err_msg = 'Could not find'
+        if not foundObj:
+            err_msg += 'Object '
+        if not foundPerson:
+            err_msg += 'Person'
+        return {'res': False, 'reason': err_msg}
 
 task_dict = {
     0 : always_true,

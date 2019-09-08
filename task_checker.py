@@ -14,7 +14,8 @@ def check_task (task_id, refPicPath, livePicsPath):
 
     task_checker = task_dict[task_id]
 
-    print('ref',refPicPath,'live',livePicsPath)
+    print("Running task checker:", task_arg_dict[task_id])
+
     return task_checker(client, task_arg_dict[task_id], livePicsPath, refPicPath)
 
 def respond(auth, err):
@@ -33,9 +34,10 @@ def lambda_handler(event, context):
         refPicPath = body['username'] + '.png'
         livePicsPath = body['livePicPath']
 
+        print('Ref:',refPicPath,'Live:',livePicsPath)
         auth = check_task(taskId, refPicPath, livePicsPath)
 
-        return respond({'auth': auth}, None)
+        return respond(auth, None)
     else:
         return respond(None, {'message':'This endpoint only accepts POST requests!'})
 
@@ -52,15 +54,15 @@ if __name__ == "__main__":
     img_finger = 'finger.jpg'
     img_shoe_right = 'shoe_right.jpg'
 
-    assert(check_task(0, img0, 'face1.jpg')) # always_true
-    assert(check_task(1, img0, img1)) # shoe_left
-    assert(check_task(2, img0, img2)) # flip_flop_right
-    assert(not check_task(2, img3, img2)) # shoe_left failure
-    assert(not check_task(2, img3, img2)) # flip_flop_right failure
-    assert(check_task(3, img3, img_cup)) # cup
-    assert(check_task(4, img3, img_beverage)) # beverage
-    assert(check_task(5, img3, img_bottle)) # bottle
-    assert(check_task(6, img3, img_finger)) # finger
-    assert(check_task(7, img3, img_shoe_right)) # shoe_right
+    assert(check_task(0, img0, 'face1.jpg')['res']) # always_true
+    assert(check_task(1, img0, img1)['res']) # shoe_left
+    assert(check_task(2, img0, img2)['res']) # flip_flop_right
+    assert(not check_task(2, img3, img2)['res']) # shoe_left failure
+    assert(not check_task(2, img3, img2)['res']) # flip_flop_right failure
+    assert(check_task(3, img3, img_cup)['res']) # cup
+    assert(check_task(4, img3, img_beverage)['res']) # beverage
+    assert(check_task(5, img3, img_bottle)['res']) # bottle
+    assert(check_task(6, img3, img_finger)['res']) # finger
+    assert(check_task(7, img3, img_shoe_right)['res']) # shoe_right
 
     print("all tests passed!!")
