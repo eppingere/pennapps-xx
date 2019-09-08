@@ -43,6 +43,9 @@ def index():
     error_reason = None
     return render_template('index.html')
 
+@app.route("/upload")
+def upload():
+	return render_template('upload.html')
 
 @app.route("/success")
 def success():
