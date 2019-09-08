@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="img/poze.png" width="454" />
+  <img src="https://github.com/eppingere/pennapps-xx/raw/master/img/poze.png" width="454" />
 </p>
 
 # Poze
