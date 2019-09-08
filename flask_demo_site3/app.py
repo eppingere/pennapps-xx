@@ -99,7 +99,7 @@ def confirm():
 	response = requests.post(
 		'https://api.strikeapoze.tech/check-task',
 		auth=auth, headers=headers, json=body)
-	
+
 	confirmed = json.loads(response.text)
 
 	if (confirmed['res']):
@@ -126,14 +126,6 @@ def checkUsername(username):
     except Exception as e:
         print('fml')
         return False
-
-
-	# users = ["conlonn@andrew.cmu.edu", 'aneek@cmu.edu', 'eyluo@andrew.cmu.edu', 'manny@cmu.edu']
-	# if username in users:
-	# 	return True
-	# else: 
-	# 	print("Username not in \"database.\"")
-	# 	return False
 
 def twoFactorAuthenticate(username):
 	#same face?
