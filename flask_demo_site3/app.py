@@ -73,9 +73,9 @@ def login():
 			prompt = 'a picture of you holding a %s on the %s side of your face' % (objectType.lower(), quality.lower())
 		photoID = randomString()
 		return render_template('authenticate.html', prompt=prompt, photoID=photoID)
-    else:
-       flash('Username not recognized. Have you registered an account?')
-	   return render_template('login.html')
+	else:
+		flash('Username not recognized. Have you registered an account?')
+		return render_template('login.html')
 
 @app.route("/authenticate/", methods=["GET", "POST"])
 def authenticate():
