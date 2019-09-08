@@ -55,7 +55,7 @@ if __name__ == "__main__":
     img_shoe_right = 'shoe_right.jpg'
 
     assert(check_task(0, img0, 'face1.jpg')['res']) # always_true
-    assert(check_task(1, img0, img1)['res']) # shoe_left
+    assert(check_task(1, img3, img1)['res']) # shoe_left
     assert(check_task(2, img0, img2)['res']) # flip_flop_right
     assert(not check_task(2, img3, img2)['res']) # shoe_left failure
     assert(not check_task(2, img3, img2)['res']) # flip_flop_right failure
@@ -63,6 +63,6 @@ if __name__ == "__main__":
     assert(check_task(4, img3, img_beverage)['res']) # beverage
     assert(check_task(5, img3, img_bottle)['res']) # bottle
     assert(check_task(6, img3, img_finger)['res']) # finger
-    assert(check_task(7, img3, img_shoe_right)['res']) # shoe_right
+    assert(check_task(7, img0, img_shoe_right)['res']) # shoe_right
 
     print("all tests passed!!")

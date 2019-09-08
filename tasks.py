@@ -57,9 +57,9 @@ def static_object(client, task, tgt, ref):
 
     if foundObj and foundPerson:
         if task['ObjectQuality'] == 'left':
-            return {'res': objRight > personRight, 'reason': 'Quality'}
-        elif task['ObjectQuality'] == 'right':
             return {'res': objLeft < personLeft, 'reason': 'Quality'}
+        elif task['ObjectQuality'] == 'right':
+            return {'res': objRight > personRight, 'reason': 'Quality'}
         elif task['ObjectQuality'] == 'exist':
             return {'res': True, 'reason': ''}
     else:
