@@ -2,11 +2,14 @@ bucket = 'aneekm-bucket'
 
 def check_face_static(client, img1, img2):
     face_similarity_threshold = 95
-    response=client.compare_faces(SimilarityThreshold=face_similarity_threshold,
+    try:
+        response=client.compare_faces(SimilarityThreshold=face_similarity_threshold,
                                   SourceImage={'S3Object':{'Bucket':bucket,'Name':img1}},
                                   TargetImage={'S3Object':{'Bucket':bucket,'Name':img2}})
+    except Exception as e:
+        return 1
 
-    return len(response['FaceMatches']) == 1
+    return 0 if len(response['FaceMatches']) == 1 else 2
 
 
 def always_true(client, task, img1, img2):
@@ -15,8 +18,13 @@ def always_true(client, task, img1, img2):
 
 def static_object(client, task, tgt, ref):
 
-    if not check_face_static(client, ref, tgt):
+    face_match = check_face_static(client, ref, tgt)
+    if face_match == 2:
         err_msg = 'Error: Face does not match reference image on file.'
+        print(err_msg)
+        return {'res': False, 'reason': err_msg}
+    elif face_match == 1:
+        err_msg = 'Missing reference picture.'
         print(err_msg)
         return {'res': False, 'reason': err_msg}
 
