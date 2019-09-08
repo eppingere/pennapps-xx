@@ -8,9 +8,9 @@
     assignTasksLambda function in AWS. It returns a random task ID
     and description taken from `tasks.py`.
 3. **task_checker.py** is the Lambda handler for the checkTaskLambda
-    function in AWS. It takes an ID, a reference picture, and a list
-    of live pictures and calls the appropriate validation function 
-    from `tasks.py` with that data. **Currently Broken!**
+    function in AWS. It takes an ID, a username (email), and a file
+    path to a picture/video and calls the appropriate validation
+    function from `tasks.py` with that data.
 
 ## Deployment
 AWS Lambda requires a zip file package to upload Python code.
@@ -22,5 +22,5 @@ To deploy:
     `aws lambda update-function-code --function-name <FUNCTION> --zip-file fileb://<ZIPFILE>`
 
 ## Testing 
-Use Postman for testing (API Gateway requires AWS SigV4 signed 
-requests).
+Use Postman for manual testing (API Gateway requires AWS SigV4 
+signed requests), and Python scripts for automated testing.
