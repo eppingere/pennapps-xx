@@ -21,7 +21,7 @@ error_reason = None
 s3 = boto3.client('s3')
 
 filename = 'file.txt'
-bucket_name = 'my-bucket'
+bucket_name = 'aneekm-bucket'
 
 app = Flask(__name__)
 
@@ -115,13 +115,25 @@ def task_refresh():
 	return("Hello")
 
 
-def checkUsername(username): 
-	users = ["conlonn@andrew.cmu.edu", 'aneek@cmu.edu', 'eyluo@andrew.cmu.edu', 'manny@cmu.edu']
-	if username in users:
-		return True
-	else: 
-		print("Username not in \"database.\"")
-		return False
+def checkUsername(username):
+    try:
+        response = s3.head_object(
+            Bucket=bucket_name,
+            Key=username+'.png'
+        )
+        print("exists")
+        return True
+    except Exception as e:
+        print('fml')
+        return False
+
+
+	# users = ["conlonn@andrew.cmu.edu", 'aneek@cmu.edu', 'eyluo@andrew.cmu.edu', 'manny@cmu.edu']
+	# if username in users:
+	# 	return True
+	# else: 
+	# 	print("Username not in \"database.\"")
+	# 	return False
 
 def twoFactorAuthenticate(username):
 	#same face?
