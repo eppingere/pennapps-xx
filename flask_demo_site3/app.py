@@ -84,11 +84,13 @@ def confirm():
         'https://api.strikeapoze.tech/check-task',
         auth=auth, headers=headers, json=body)
     
-    confirmed = json.loads(response.text)['auth']
+    confirmed = json.loads(response.text)
 
-    if (confirmed):
+    if (confirmed['res']):
+        photoID = None
         return render_template('confirm.html')
     else:
+        print(confirmed['reason'])
         return render_template('failure.html')
 
 
