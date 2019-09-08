@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
     <link rel="shortcut icon" href="{{ url_for('static', filename='poze.ico') }}">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
   </head>
   <body>
   <section class="section">
@@ -17,6 +26,9 @@
       <div class="tile is-ancestor">
         <div class="tile is-parent is-4">
           <article class="tile is-child notification is-info">
+            {% if error %}
+              <p class=error><strong>Error:</strong> {{ error }}
+            {% endif %}
             <form action="/login" method = "POST"> 
                 <div class="field">
                   <p class="control has-icons-left has-icons-right">

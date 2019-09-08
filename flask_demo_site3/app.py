@@ -24,6 +24,7 @@ filename = 'file.txt'
 bucket_name = 'aneekm-bucket'
 
 app = Flask(__name__)
+app.secret_key = 'rolltarts'
 
 def randomString(stringLength=10):
 	letters = string.ascii_lowercase
@@ -62,20 +63,22 @@ def failure():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-	global username, prompt, taskID, photoID
-	username = request.form.get("username")
-	print(username)
-	if checkUsername(username):
-		taskID, objectType, quality = getTaskInfo()
-		if (quality == "exist"):
-			prompt = 'a picture of you holding a %s' % (objectType.lower())
-		else:
-			prompt = 'a picture of you holding a %s on the %s side of your face' % (objectType.lower(), quality.lower())
-		photoID = randomString()
-		return render_template('authenticate.html', prompt=prompt, photoID=photoID)
-	else:
-		flash('Username not recognized. Have you registered an account?')
-		return render_template('login.html')
+    error = None
+    global username, prompt, taskID, photoID
+    username = request.form.get("username")
+    print(username)
+    if checkUsername(username):
+        taskID, objectType, quality = getTaskInfo()
+        if (quality == "exist"):
+            prompt = 'a picture of you holding a %s' % (objectType.lower())
+        else:
+            prompt = 'a picture of you holding a %s on the %s side of your face' % (objectType.lower(), quality.lower())
+        photoID = randomString()
+        return render_template('authenticate.html', prompt=prompt, photoID=photoID)
+    elif username!=None and username!="":
+        error = 'Username not recognized. Have you registered an account?'
+        return render_template('login.html', error=error)
+    return render_template('login.html')
 
 @app.route("/authenticate/", methods=["GET", "POST"])
 def authenticate():
@@ -88,7 +91,7 @@ def authenticate():
 def confirm():
 	global auth, username, taskID, photoID
 	if (photoID == None): # OR OTHER FAILURE CASE
-		return redirect(url_for('login'))
+		return redirect(url_for('login', code=307))
 	print(taskID, username, photoID + '.png')
 
 	body = {
