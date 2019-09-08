@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="img/poze.png" height="300" />
+  <img src="img/poze.png" width="454" />
 </p>
 
 # Poze
@@ -24,7 +24,7 @@ Poze's API is designed for simple and easy yet effective use. To verify the iden
 
 A complete definition of our API can be found in our [Swaggerdocs](http://eppi.ng/pennapps-xx/swagger/).
 
-An example of how to use the Poze API is in our [demo](https://github.com/eppingere/pennapps-xx/tree/master/flask_demo_site3). 
+An example of how to use the Poze API is in our [demo](https://github.com/eppingere/pennapps-xx/tree/master/flask_demo_site3).
 
 
 ## How We Built It
@@ -33,14 +33,14 @@ The core of Poze is [Amazon Rekognition](https://aws.amazon.com/rekognition/), a
 Our front-end example, called `PrivacyBook`, demonstrates how a service could implement the Poze API for verification. Built on Flask, JavaScript, and HTML5, PrivacyBook prompts the user to take a photo in their poze, and will let the user into their account on success.
 
 ## Challenges We Ran Into
-We ran into issues trying to build a complex computer vision application, trying to deploy that in an AWS serverless environment, all while trying to stay within the confines of the AWS free tier. 
+We ran into issues trying to build a complex computer vision application, trying to deploy that in an AWS serverless environment, all while trying to stay within the confines of the AWS free tier.
 
 Amazon Rekognition is capable of labeling a lot of different objects, but struggles to define their location in the image. Oftentimes, we identified objects’ existence in the image, but Rekognition could only tag the person in the image, not the bottle or shoe, for example.
 
 ## Accomplishments We're Proud of
 We were really proud of how the demo turned out. We really like how cleanly it demonstrates the power and promise of our API. We think it really highlights the ideal use case.
 
-We also are quite happy with the overall design of our API. We think that the API design has a lot of promise and wouldn’t require much change in terms of going into production. 
+We also are quite happy with the overall design of our API. We think that the API design has a lot of promise and wouldn’t require much change in terms of going into production.
 
 ## What We Learned
 We learned a lot about AWS. Only Aneek had used AWS before this so learning about all the powerful APIs that AWS offers. We got experience designing, building, and deploying a serverless API.
