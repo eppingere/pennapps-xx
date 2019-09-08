@@ -56,6 +56,7 @@ def static_object(client, task, tgt, ref):
                 personRight = personLeft + label['Instances'][0]['BoundingBox']['Width']
 
     if foundObj and foundPerson:
+        print("found both")
         if task['ObjectQuality'] == 'right':
             return {'res': objLeft < personLeft, 'reason': 'Quality'}
         elif task['ObjectQuality'] == 'left':
@@ -81,6 +82,8 @@ task_dict = {
     6 : static_object,
     7 : static_object,
     8 : static_object,
+    9 : static_object,
+    10: static_object,
 }
 
 task_arg_dict = {
@@ -93,6 +96,8 @@ task_arg_dict = {
     6 : {'Id':6, 'ObjectLabel':'Finger', 'ObjectQuality':'exist'},
     7 : {'Id':7, 'ObjectLabel':'Shoe', 'ObjectQuality':'right'},
     8 : {'Id':8, 'ObjectLabel':'Bag', 'ObjectQuality':'exist'},
+    9 : {'Id':9, 'ObjectLabel':'Toy', 'ObjectQuality':'left'},
+    10: {'Id':10, 'ObjectLabel':'Toy', 'ObjectQuality':'right'},
 }
 
 numTasks = len(task_dict)    # always_true should be ignored and always be at index 0

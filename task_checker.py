@@ -56,6 +56,8 @@ if __name__ == "__main__":
     beverage = 'bev.jpg'
     bottle = 'bot.jpg'
     finger = 'finger.jpg'
+    toy_left = 'toy_left.jpg'
+    toy_right = 'toy_right.jpg'
 
     assert(check_task(0, ref_manny, 'face1.jpg')['res']) # always_true
     assert(check_task(1, ref_aneek, shoe_left_new)['res']) # shoe_left
@@ -67,5 +69,8 @@ if __name__ == "__main__":
     assert(check_task(5, ref_manny, bottle)['res']) # bottle
     assert(check_task(6, ref_manny, finger)['res']) # finger
     assert(check_task(7, ref_aneek, shoe_right_new)['res']) # shoe_right
+    assert(check_task(9, ref_aneek, toy_left)['res']) # toy_left
+    assert(check_task(10, ref_aneek, toy_right)['res']) # toy_right
+    assert(not check_task(9, ref_aneek, toy_right)['res']) # toy_right failure
 
     print("all tests passed!!")
