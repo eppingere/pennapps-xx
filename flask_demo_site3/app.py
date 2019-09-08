@@ -99,7 +99,7 @@ def confirm():
     else:
         print(confirmed['reason'])
         return render_template('failure.html')
-        
+
 @app.route('/task_refresh')
 def task_refresh():
     # refreshTaskInfo()
@@ -107,8 +107,7 @@ def task_refresh():
 
 
 def checkUsername(username): 
-    users = ["conlonn@andrew.cmu.edu", 'aneekm@andrew.cmu.edu',
-        'eyluo@andrew.cmu.edu', 'manny@cmu.edu']
+    users = ["conlonn@andrew.cmu.edu", 'aneek@cmu.edu', 'eyluo@andrew.cmu.edu', 'manny@cmu.edu']
     if username in users:
         return True
     else: 

@@ -4,7 +4,7 @@
 <head>
   <title>Poze</title>
   <meta charset='utf-8'>
-  <link rel="stylesheet" href="main.css" type="text/css" media="all">
+  <link rel="stylesheet" href="styles.css" type="text/css" media="all">
   <title>PrivacyBook - Poze Authentication</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
   <link rel="shortcut icon" href="{{ url_for('static', filename='poze.ico') }}">
@@ -83,6 +83,7 @@
       function startup() {
         video = document.getElementById('video');
         canvas = document.getElementById('canvas');
+        canvas.style.display = "none";
         photo = document.getElementById('photo');
         startbutton = document.getElementById('startbutton');
 
@@ -179,11 +180,11 @@
       window.addEventListener('load', startup, false);
     })();
   </script>
-  <script type="text/javascript">
+<!--   <script type="text/javascript">
      function new_prompt() {
-        window.location.href = "/authenticate/";
+        window.location.href = "";
       }
-  </script>
+  </script> -->
 </head>
 
 
@@ -203,7 +204,7 @@
           <div class="tile is-parent">
             <article class="tile is-child notification is-info">
               <p class="title">{{ prompt[0]|upper}}{{prompt[1:] }}</p>
-<!--                 <a class="button is-link is-warning" onClick="{{ url_for(authenticate) }}">New Prompt</a> -->
+<!--                 <a class="button is-link is-warning" onClick="{{ url_for("authenticate") }}">New Prompt</a> -->
             </article>
           </div>
         </div>
@@ -222,7 +223,11 @@
           </div>
           <div class="tile is-parent">
             <article class="tile is-child notification is-info">
-              <canvas id="canvas" alt="The screen capture will appear in this box.">
+              <canvas id="canvas" class="hide" alt="The screen capture will appear in this box.">
+              </canvas>
+              <div class="output">
+                <img id="photo" alt="The screen capture will appear in this box.">
+              </div>
             </article>
           </div>
         </div>
