@@ -29,7 +29,7 @@ def lambda_handler(event, context):
     if event['httpMethod'] == 'POST':
         body = json.loads(event['body'])
         taskId = body['taskId']
-        refPicPath = body['username'] + '.jpg'
+        refPicPath = body['username'] + '.png'
         livePicsPath = body['livePicPath']
 
         auth = check_task(taskId, refPicPath, livePicsPath)
