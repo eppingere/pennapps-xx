@@ -2,13 +2,10 @@ import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from flask import Flask, render_template, request, Response, redirect, url_for
-from task_assigner import respond, lambda_handler
-from task_checker import *
 from aws_requests_auth.boto_utils import BotoAWSRequestsAuth
 import json, boto3, base64, requests, random, string
 
-
-auth = BotoAWSRequestsAuth(aws_host='htozj1y344.execute-api.us-east-1.amazonaws.com',
+auth = BotoAWSRequestsAuth(aws_host='http://api.strikeapoze.tech',
                     aws_region='us-east-1',
                     aws_service='execute-api')
 
@@ -71,11 +68,28 @@ def authenticate():
 
 @app.route("/confirm/", methods=["GET", "POST"])
 def confirm():
-    global username, taskID, photoID
+    global auth, username, taskID, photoID
     if (photoID == None): # OR OTHER FAILURE CASE
         return redirect(url_for('login'))
-    check_task(taskID, username, photoID + '.png')
-    return render_template('confirm.html')
+    print(taskID, username, photoID + '.png')
+
+    body = {
+        'taskId': taskID,
+        'username': username,
+        'livePicPath': photoID + '.png',
+    }
+
+    headers = {'Content-Type': 'application/json'}
+    response = requests.post(
+        'https://api.strikeapoze.tech/check-task',
+        auth=auth, headers=headers, json=body)
+    
+    confirmed = json.loads(response.text)['auth']
+
+    if (confirmed):
+        return render_template('confirm.html')
+    else:
+        return render_template('failure.html')
 
 
 def checkUsername(username): 
@@ -101,7 +115,7 @@ def twoFactorAuthenticate(username):
 def getTaskInfo(): #TO-DO? Mostly done?
     global auth
     rawResponse = requests.get(
-        'https://htozj1y344.execute-api.us-east-1.amazonaws.com/default/get-task',
+        'https://api.strikeapoze.tech/get-task',
         auth=auth)
 
     if (rawResponse == None):
