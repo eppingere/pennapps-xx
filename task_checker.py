@@ -14,6 +14,7 @@ def check_task (task_id, refPicPath, livePicsPath):
 
     task_checker = task_dict[task_id]
 
+    print('ref',refPicPath,'live',livePicsPath)
     return task_checker(client, task_arg_dict[task_id], livePicsPath, refPicPath)
 
 def respond(auth, err):
@@ -41,10 +42,10 @@ def lambda_handler(event, context):
 
 if __name__ == "__main__":
 
-    img0='aneek@cmu.edu.jpg'
+    img0='aneek@cmu.edu.png'
     img1='shoe_left.jpg'
     img2='flip_flop_right.jpg'
-    img3='manny@cmu.edu.jpg'
+    img3='manny@cmu.edu.png'
     img_cup = 'cup.jpg'
     img_beverage = 'bev.jpg'
     img_bottle = 'bot.jpg'
