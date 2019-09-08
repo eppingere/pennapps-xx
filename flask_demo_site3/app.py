@@ -1,7 +1,7 @@
 import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from flask import Flask, render_template, request, Response, redirect, url_for
+from flask import Flask, render_template, request, Response, redirect, url_for, flash
 from aws_requests_auth.boto_utils import BotoAWSRequestsAuth
 import json, boto3, base64, requests, random, string
 
@@ -73,7 +73,9 @@ def login():
 			prompt = 'a picture of you holding a %s on the %s side of your face' % (objectType.lower(), quality.lower())
 		photoID = randomString()
 		return render_template('authenticate.html', prompt=prompt, photoID=photoID)
-	return render_template('login.html')
+    else:
+       flash('Username not recognized. Have you registered an account?')
+	   return render_template('login.html')
 
 @app.route("/authenticate/", methods=["GET", "POST"])
 def authenticate():
