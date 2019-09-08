@@ -44,25 +44,28 @@ def lambda_handler(event, context):
 
 if __name__ == "__main__":
 
-    img0='aneek@cmu.edu.png'
-    img1='shoe_left.jpg'
-    img2='flip_flop_right.jpg'
-    img3='manny@cmu.edu.png'
-    img_cup = 'cup.jpg'
-    img_beverage = 'bev.jpg'
-    img_bottle = 'bot.jpg'
-    img_finger = 'finger.jpg'
-    img_shoe_right = 'shoe_right.jpg'
+    ref_aneek = 'aneek@cmu.edu.png'
+    ref_manny = 'manny@cmu.edu.png'
 
-    assert(check_task(0, img0, 'face1.jpg')['res']) # always_true
-    assert(check_task(1, img0, img1)['res']) # shoe_left
-    assert(check_task(2, img0, img2)['res']) # flip_flop_right
-    assert(not check_task(2, img3, img2)['res']) # shoe_left failure
-    assert(not check_task(2, img3, img2)['res']) # flip_flop_right failure
-    assert(check_task(3, img3, img_cup)['res']) # cup
-    assert(check_task(4, img3, img_beverage)['res']) # beverage
-    assert(check_task(5, img3, img_bottle)['res']) # bottle
-    assert(check_task(6, img3, img_finger)['res']) # finger
-    assert(check_task(7, img3, img_shoe_right)['res']) # shoe_right
+    shoe_left='shoe_left.jpg'
+    shoe_left_new='fa5nf6kxl6.png'
+    shoe_right_new='q2j0llfu81.png'
+    shoe_right = 'shoe_right.jpg'
+    flip_flop_right='flip_flop_right.jpg'
+    cup = 'cup.jpg'
+    beverage = 'bev.jpg'
+    bottle = 'bot.jpg'
+    finger = 'finger.jpg'
+
+    assert(check_task(0, ref_manny, 'face1.jpg')['res']) # always_true
+    assert(check_task(1, ref_aneek, shoe_left_new)['res']) # shoe_left
+    assert(check_task(2, ref_aneek, flip_flop_right)['res']) # flip_flop_right
+    assert(not check_task(2, ref_manny, shoe_right_new)['res']) # shoe_left failure
+    assert(not check_task(2, ref_manny, flip_flop_right)['res']) # flip_flop_right failure
+    assert(check_task(3, ref_manny, cup)['res']) # cup
+    assert(check_task(4, ref_manny, beverage)['res']) # beverage
+    assert(check_task(5, ref_manny, bottle)['res']) # bottle
+    assert(check_task(6, ref_manny, finger)['res']) # finger
+    assert(check_task(7, ref_aneek, shoe_right_new)['res']) # shoe_right
 
     print("all tests passed!!")

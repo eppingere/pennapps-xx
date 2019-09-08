@@ -123,10 +123,8 @@ def checkUsername(username):
             Bucket=bucket_name,
             Key=username+'.png'
         )
-        print("exists")
         return True
     except Exception as e:
-        print('fml')
         return False
 
 def twoFactorAuthenticate(username):
