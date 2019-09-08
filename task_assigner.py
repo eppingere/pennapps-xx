@@ -13,7 +13,9 @@ def respond(resp, err):
 
 def lambda_handler(event, context):
     if event['httpMethod'] == 'GET':
-        taskId = choice(list(task_arg_dict))
+        taskId = 0
+        while taskId == 0:
+            taskId = choice(list(task_arg_dict))
 
         return respond(
             {'description': task_arg_dict[taskId]},

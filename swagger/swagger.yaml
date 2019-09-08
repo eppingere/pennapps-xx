@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  description: "This is the API to interact with the Poze authentication back-end" 
+  description: "This is the API to interact with the Poze authentication back-end"
   version: "1.0.0"
   title: "Poze Authentication"
   contact:
@@ -15,7 +15,7 @@ tags:
   description: "To get a task"
   externalDocs:
     description: "Find out more"
-    url: "http://poze.tech"
+    url: "https://strikeapoze.tech"
 - name: "check-task"
   description: "To authenticate the user performing the task"
 schemes:
@@ -92,9 +92,12 @@ definitions:
   CheckTaskResponse:
     type: "object"
     properties:
-      auth:
+      res:
+        type: "boolean"
+        description: True/False representing authentication status
+      reason:
         type: "string"
-        description: True/False string representing authentication status
+        description: description of why given image was rejected or accepted
 externalDocs:
   description: "Find out more about Poze"
-  url: "https://poze.tech"
+  url: "https://strikeapoze.tech"

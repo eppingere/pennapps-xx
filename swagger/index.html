@@ -10,7 +10,7 @@
     <h1>Poze Authentication</h1>
     <p class="sw-info">
         Base URL: <span class="sw-info-basePath">/</span>,
-        Version: <span class="sw-info-version">1.0.0</span>,     <a href="https://poze.tech" class="sw-external-doc">Find out more about Poze</a>
+        Version: <span class="sw-info-version">1.0.0</span>,     <a href="https://strikeapoze.tech" class="sw-external-doc">Find out more about Poze</a>
     
     </p>
     <p><p>This is the API to interact with the Poze authentication back-end</p>
@@ -28,7 +28,7 @@
             <p>To get a task</p>
         
             <p class="sw-tag-external-doc">
-                    <a href="http://poze.tech" class="sw-external-doc">Find out more</a>
+                    <a href="https://strikeapoze.tech" class="sw-external-doc">Find out more</a>
             </p>
             <table class="table table-bordered table-condensed swagger--summary">
                 <thead>
@@ -277,15 +277,29 @@
                             
                                     <section class="json-schema-properties">
                                         <dl>
-                                                <dt data-property-name="auth">
-                                                    <span class="json-property-name">auth:</span>
+                                                <dt data-property-name="res">
+                                                    <span class="json-property-name">res:</span>
+                                                    
+                                                    <span class="json-property-type">boolean</span>
+                                                    <span class="json-property-range" title="Value limits"></span>
+                                                    
+                                                </dt>
+                                                <dd>
+                                                    <p>True/False representing authentication status</p>
+                                    
+                                                    <div class="json-inner-schema">
+                                                        
+                                                    </div>
+                                                </dd>
+                                                <dt data-property-name="reason">
+                                                    <span class="json-property-name">reason:</span>
                                                     
                                                     <span class="json-property-type">string</span>
                                                     <span class="json-property-range" title="Value limits"></span>
                                                     
                                                 </dt>
                                                 <dd>
-                                                    <p>True/False string representing authentication status</p>
+                                                    <p>description of why given image was rejected or accepted</p>
                                     
                                                     <div class="json-inner-schema">
                                                         
