@@ -1,7 +1,7 @@
 # Poze
 Strike a Poze! An API for Private and Secure Identity Verification
 
-Proudly built by [Aneek Mukherjee](https://aneekm.com), [Conlon Novak](https://conlonnovak.com), [Emmanuel Eppinger](https://eppi.ng), and [Eugene Luo](https://eyluo.github.io)
+Proudly built by [Aneek Mukherjee](https://aneekm.com), [Conlon Novak](https://conlonnovak.com), [Emmanuel Eppinger](https://eppi.ng), and [Eugene Luo](https://eyluo.github.io).
 
 
 ## Inspiration
