@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="img/poze_icon-01.png" width="200" height="236" />
+</p>
+
 # Poze
 Strike a Poze! An API for Private and Secure Identity Verification
 
