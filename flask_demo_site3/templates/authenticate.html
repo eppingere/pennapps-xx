@@ -7,9 +7,7 @@
   <link rel="stylesheet" href="main.css" type="text/css" media="all">
   <script src="https://sdk.amazonaws.com/js/aws-sdk-2.524.0.min.js"></script>
   <script>
-    // **DO THIS**:
-    //   Replace BUCKET_NAME with the bucket name.
-    //
+    var photoID = '{{ photoID }}';
     var albumBucketName = 'aneekm-bucket';
     var flag = true;
     var s3 = null;
@@ -149,14 +147,14 @@
           var data = canvas.toDataURL('image/png');
           photo.setAttribute('src', data);
 
-          console.log(photo, ' files');
+          console.log(photoID);
 
           blobData = base64ToBlob(data);
 
           s3.putObject({
             Body: blobData,
             Bucket: albumBucketName, 
-            Key: 'enormousyeehaw.png',
+            Key: photoID + '.png',
             // ContentEncoding: 'base64',
             ContentType: 'image/png',
           }, function (err, data) {
@@ -165,19 +163,8 @@
               return alert('There was an error uploading your photo: ', err.message);
             }
             alert('Successfully uploaded photo.');
+            setTimeout(window.location.replace('http://127.0.0.1:5000/confirm'), 1500);
           });
-
-          // s3.upload({
-          //   Key: "enormous yeehaw.png",
-          //   Body: data,
-          //   ACL: 'public-read-write'
-          // }, function (err, data) {
-          //   if (err) {
-          //     console.log(err)
-          //     return alert('There was an error uploading your photo: ', err.message);
-          //   }
-          //   alert('Successfully uploaded photo.');
-          // });
         } else {
           clearphoto();
         }

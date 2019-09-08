@@ -1,30 +1,45 @@
-# Pennapps XX Project - Poze
+# Poze
+API for Captcha-Style Identity Verification via Interactive Microgames
 
-## Important Files:
-1. **tasks.py** holds the functions for checking images
-    against Rekognition, and the dictionaries defining the possible
-    tasks
-2. **task_assigner.py** is the Lambda handler for the 
-    assignTasksLambda function in AWS. It returns a random task ID
-    and description taken from `tasks.py`.
-3. **task_checker.py** is the Lambda handler for the checkTaskLambda
-    function in AWS. It takes an ID, a reference picture, and a list
-    of live pictures and calls the appropriate validation function 
-    from `tasks.py` with that data. **Currently Broken!**
+## Inspiration
+An increasingly common problem for sites is dealing with fake users, users impersonating other users, and enforcement of best security practices with users. This problem is so severe that in [2018 Q4, Facebook recognized 118 Million impersonated accounts](https://www.nytimes.com/2019/01/30/technology/facebook-fake-accounts.html). Facebook's solution is to [ask users to upload photos of government issued IDs](https://kmph.com/news/local/facebook-is-asking-people-to-submit-their-ids-to-prove-their-accounts-are-real). However, this is an imperfect solution. Firstly, government IDs are quite easy to fake in real life, let alone in an image. Secondly, users may be understandably worried uploading images of personally identifiable documents to Facebook and other sites. Our goal was to create a method to verify the identities of users without requiring any personally identifiable documents. 
 
-## Deployment
-AWS Lambda requires a zip file package to upload Python code.
+## What it does
+Poze is an API that asks users to do simple tasks on camera and uses Computer Vision to verify that they are accomplishing the task as specified and verifying that the person on camera is the correct owner of the account. When given an image of the user, Poze verifies that the person in the video or image is the person in the user's image, therefore verifying that the person in control of the account is the person in control of the likeness displayed on the account.
 
-To deploy:
-1. Create a zip file containing the relevant files from the above 
-    section for each function (tasks.py and one of the handlers)
-2. Use the following AWS CLI command or upload using the web UI:
-    `aws lambda update-function-code --function-name <FUNCTION> --zip-file fileb://<ZIPFILE>`
+## How to use Poze
 
-## Testing 
-Use Postman for testing (API Gateway requires AWS SigV4 signed 
-requests).
+Using our API is very easy. To verify the identiy of a user, all you need is:
 
-## Logo Credits
-People Model by Gan Khoon Lay from the Noun Project
-shoes by Samsul Rizal from the Noun Project
+1. A photo of the user. You can get this before starting to call our API in each verification or you could pull this from data that the user has already provided.
+2. Call our `api.strikeapoze.tech/get-task` which will provide a type of task to ask the user to complete and a task id.
+3. Record a video of the user accomplishing the task
+4. Send the video to our `api.strikeapoze.tech/check-task` API
+5. Receive a `bool` representing whether or not the user has been verified
+
+Its that easy!!!
+
+For a complete definition of our API can be found in our [Swaggerdocs](http://eppi.ng/pennapps-xx/swagger/)
+
+For an example of how to use the Poze API is in our [demo](https://github.com/eppingere/pennapps-xx/tree/master/flask_demo_site3). 
+
+
+## How we built it
+The core of Poze is [Amazon Rekognition](https://aws.amazon.com/rekognition/), a facial recognition and object detection service that we utilize to compare new pictures against references to authenticate a user. We wanted a serverless back-end, so we could focus on API transactions and not managing infrastructure, so Poze’s backend uses API Gateway to provide the necessary endpoints, and [AWS Lambda](https://aws.amazon.com/lambda/) to do the computation and interface with Rekognition. We also utilize [AWS S3](https://aws.amazon.com/s3/) to store the image and video files provided by our users to authenticate themselves, and ensure that their data is deleted in a timely fashion to maintain their privacy.
+Our front-end 
+
+## Challenges we ran into
+We ran into issues trying to build a complex computer vision application, trying to deploy that in an AWS serverless environment, all while trying to stay within the confines of the AWS free tier. 
+Amazon Rekognition is capable of labeling a lot of different objects, but struggles to define their location in the image. Oftentimes, we identified objects’ existence in the image, but Rekognition could only tag the person in the image, not the bottle or shoe, for example.
+
+## Accomplishments that we're proud of
+We were really proud of how the demo turned out. We really like how cleanly it demonstrates the power and promise of our API. We think it really highlights the ideal use case.
+We also are quite happy with the overall design of our API. We think that the API design has a lot of promise and wouldn’t require much change in terms of going into production. 
+
+## What we learned
+We learned a lot about AWS. Only Aneek had used AWS before this so learning about all the powerful APIs that AWS offers. We got experience designing, building, and deploying a serverless API.
+
+## What's next for Poze
+* AR/VR activities via an external app to better guard against deepfakes.
+* More interactive tasks for users to record that would provide more robust CAPTCHA functionality
+* Fully implement a 2FA protocol that would allow Poze to function as a 2FA API for sites to use
