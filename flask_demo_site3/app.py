@@ -104,7 +104,7 @@ def confirm():
 
 	if (confirmed['res']):
 		photoID = None
-		return render_template('confirm.html')
+		return render_template('success.html')
 	else:
 		error_reason = confirmed['reason']
 		return render_template('failure.html', rsn=error_reason)
