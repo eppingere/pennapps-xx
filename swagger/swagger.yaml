@@ -92,9 +92,12 @@ definitions:
   CheckTaskResponse:
     type: "object"
     properties:
-      auth:
+      res:
+        type: "boolean"
+        description: True/False representing authentication status
+      reason:
         type: "string"
-        description: True/False string representing authentication status
+        description: description of why given image was rejected or accepted
 externalDocs:
   description: "Find out more about Poze"
   url: "https://poze.tech"
